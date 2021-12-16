@@ -9,12 +9,20 @@ public class Product {
     private final Money price;
     private final String clasification;
 
-    public Product(UUID productId, String name, String description, Money price, String clasification){
+    public Product(UUID productId, String name, String description, Money price){
         this.productId = productId;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.clasification = clasification;
+
+        if(this.price < 50){
+            this.clasification = "Cheap";
+        } else if (50 < this.price < 199){
+            this.clasification = "Regular";
+        } else if(this.price > 199){
+            this.clasification = "Expensive";
+        }
+
     }
 
 }
