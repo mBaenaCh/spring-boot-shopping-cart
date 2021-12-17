@@ -1,16 +1,20 @@
 package com.mateo.ShoppingCart.Marketplace.core.domain;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Product {
-    private final UUID productId;
+
+    private final UUID productId; //Identificador unico de un objeto
     private final String name;
     private final String description;
-    private final Money price;
-    private final String clasification;
+    private final Money price; //Valor monetario basado en
+    private String clasification;
 
     public Product(UUID productId, String name, String description, Money price){
+        Objects.requireNonNull(productId, "The Product id must not be empty");
+
         this.productId = productId;
         this.name = name;
         this.description = description;
