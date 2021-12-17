@@ -1,7 +1,10 @@
 package com.mateo.ShoppingCart.Marketplace.core.domain;
 
+import lombok.Getter;
+
 import java.math.BigDecimal;
 
+@Getter
 public class Money {
     private final BigDecimal value;
     private final Badge badge;

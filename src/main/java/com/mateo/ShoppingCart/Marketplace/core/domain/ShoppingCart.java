@@ -2,9 +2,8 @@ package com.mateo.ShoppingCart.Marketplace.core.domain;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class ShoppingCart {
 
@@ -40,8 +39,14 @@ public class ShoppingCart {
         return calculatedDiscount;
     }
 
-    public static int getClasificationCount(Map<UUID,Product> products, String clasification){
-        return 0;
+    public Integer getAmountPerClasification(String clasification){
+
+        Long amount = products.entrySet(). //Definimos los elementos a recorrer en el Map
+                stream().                  // Recorremos los elementos
+                filter(e -> e.getValue().getClasification().equals(clasification)). //Filtramos los elementos que correspondan a la clasificacion ingresada
+                map(Map.Entry::getValue).count(); //Para cada elemento que satisface el filtro, obtenemos su valor y realizamos un conteo sobre estos.
+
+        return amount.intValue();
     }
 
 
