@@ -1,5 +1,6 @@
 package com.mateo.ShoppingCart.Marketplace.core.domain;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class Product {
@@ -15,11 +16,11 @@ public class Product {
         this.description = description;
         this.price = price;
 
-        if(this.price < 50){
+        if(this.price.getValue().compareTo(BigDecimal.valueOf(50.0)) < 50){
             this.clasification = "Cheap";
-        } else if (50 < this.price < 199){
+        } else if (50 < this.price.getValue() < 199){
             this.clasification = "Regular";
-        } else if(this.price > 199){
+        } else if(this.price.getValue() > 199){
             this.clasification = "Expensive";
         }
 

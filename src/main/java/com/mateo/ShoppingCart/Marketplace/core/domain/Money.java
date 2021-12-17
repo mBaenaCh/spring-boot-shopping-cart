@@ -10,4 +10,8 @@ public class Money {
         this.value = value;
         this.badge = badge;
     }
+
+    public BigDecimal getValue() {
+        return value;
+    }
 }
