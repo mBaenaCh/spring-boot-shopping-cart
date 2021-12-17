@@ -23,8 +23,8 @@ public class ShoppingCart {
     private final Money total;
 
     public ShoppingCart(ClientId clientId, Instant creationDate, Instant updateDate, Map<UUID, Product> products, Money total){
-        Objects.requireNonNull(clientId, "The Client Id must not be and empty value");
-
+        Objects.requireNonNull(clientId, "The Client Id must not be null");
+        Objects.requireNonNull(total, "The total amount of the Shopping cart must not be null");
 
         this.clientId = clientId;
         this.creationDate = creationDate;
@@ -33,18 +33,18 @@ public class ShoppingCart {
         this.total = total;
     }
 
-    public static BigDecimal calculateTotalDiscount(BigDecimal price){
+    public static BigDecimal productDiscountCalculator(BigDecimal price){
             BigDecimal discount = price.multiply(DISCOUNT_PERCENTAGE);
             BigDecimal calculatedDiscount = price.subtract(discount);
         return calculatedDiscount;
     }
 
-    public Integer getAmountPerClasification(String clasification){
+    public Integer getAmountOfProductsPerClasification(String clasification){
 
         Long amount = products.entrySet(). //Definimos los elementos a recorrer en el Map
                 stream().                  // Recorremos los elementos
                 filter(e -> e.getValue().getClasification().equals(clasification)). //Filtramos los elementos que correspondan a la clasificacion ingresada
-                map(Map.Entry::getValue).count(); //Para cada elemento que satisface el filtro, obtenemos su valor y realizamos un conteo sobre estos.
+                map(Map.Entry::getValue).count(); //Contamos los elementos que satisfacen el filtro
 
         return amount.intValue();
     }
