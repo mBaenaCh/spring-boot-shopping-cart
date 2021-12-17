@@ -16,7 +16,7 @@ public record ClientId(UUID value) {
     }
 
     /* Metodo estatico para generar un UUID en funcion de un String*/
-    public static ClientId getAsString(String value){
+    public static ClientId generateUUIDFromString(String value){
         return new ClientId(UUID.fromString(value));
     }
 }
