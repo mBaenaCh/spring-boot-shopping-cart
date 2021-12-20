@@ -50,5 +50,15 @@ public class ShoppingCart {
 
         return amount.intValue();
     }
-    
+
+    public Boolean validateProductsList() {
+        Integer amountOfExpensive = getAmountOfProductsPerClasification("Expensive");
+        Integer amountOfNormal = getAmountOfProductsPerClasification("Normal");
+
+        if (amountOfExpensive > 1 || amountOfNormal > 10) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
