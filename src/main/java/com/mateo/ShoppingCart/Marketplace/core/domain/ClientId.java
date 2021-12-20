@@ -4,9 +4,10 @@ import java.util.Objects;
 import java.util.UUID;
 
 /*
-*  - value: UUID -> 180 bits -> 36 characters
-* */
+ *  - value: UUID -> 180 bits -> 36 caracteres
+ * */
 public record ClientId(UUID value) {
+
     public ClientId{
         Objects.requireNonNull(value);
     }
@@ -15,7 +16,7 @@ public record ClientId(UUID value) {
         return new ClientId(UUID.randomUUID());
     }
 
-    /* Metodo estatico para generar un UUID en funcion de un String*/
+/* Metodo estatico para generar un UUID en funcion de un String*/
     public static ClientId generateUUIDFromString(String value){
         return new ClientId(UUID.fromString(value));
     }
