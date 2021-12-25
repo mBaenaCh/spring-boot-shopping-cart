@@ -1,4 +1,4 @@
-package com.mateo.ShoppingCart.Marketplace.core.domain;
+package com.mateo.ShoppingCart.Marketplace.domain;
 
 import lombok.Getter;
 

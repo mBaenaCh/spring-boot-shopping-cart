@@ -1,9 +1,8 @@
-package com.mateo.ShoppingCart.Marketplace.core.domain;
+package com.mateo.ShoppingCart.Marketplace.domain;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.*;
-import java.util.stream.Stream;
 
 public class ShoppingCart {
 
