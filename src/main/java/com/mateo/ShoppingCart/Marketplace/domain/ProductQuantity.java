@@ -26,5 +26,4 @@ public class ProductQuantity {
     public Integer productQuantityAsInteger(){
         return this.value;
     }
-
 }
