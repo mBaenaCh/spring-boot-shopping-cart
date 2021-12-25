@@ -15,4 +15,9 @@ public record ProductId(UUID value) {
     public static ProductId generateUUIDFromString(String value){
         return new ProductId(UUID.fromString(value));
     }
+
+    @Override
+    public String toString(){
+        return this.value.toString();
+    }
 }

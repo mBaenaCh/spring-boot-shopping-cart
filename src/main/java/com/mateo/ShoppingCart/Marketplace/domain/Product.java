@@ -9,13 +9,13 @@ import java.util.Objects;
 public class Product {
 
     private final ProductId productId; //Identificador unico de un objeto
-    private final String name;
-    private final String description;
+    private final ProductName name;
+    private final ProductDescription description;
     private final Money price; //Valor monetario basado en
     private final String clasification;
-    private final Integer quantity;
+    private final ProductQuantity quantity;
 
-    public Product(ProductId productId, String name, String description, Money price, Integer quantity){
+    public Product(ProductId productId, ProductName name, ProductDescription description, Money price, ProductQuantity quantity){
         Objects.requireNonNull(productId, "The Product id must not be empty");
 
         this.productId = productId;
@@ -37,5 +37,4 @@ public class Product {
         }
         return clasification;
     }
-
 }
