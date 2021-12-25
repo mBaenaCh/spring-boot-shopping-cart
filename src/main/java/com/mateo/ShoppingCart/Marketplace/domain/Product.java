@@ -16,7 +16,11 @@ public class Product {
     private final ProductQuantity quantity;
 
     public Product(ProductId productId, ProductName name, ProductDescription description, Money price, ProductQuantity quantity){
-        Objects.requireNonNull(productId, "The Product id must not be empty");
+        Objects.requireNonNull(productId, "The Product id must not be null");
+        Objects.requireNonNull(name, "The product name must not be null");
+        Objects.requireNonNull(description, "The product description must not be null");
+        Objects.requireNonNull(price, "The product price must not be null");
+        Objects.requireNonNull(quantity, "The product quantity must not be null");
 
         this.productId = productId;
         this.name = name;
