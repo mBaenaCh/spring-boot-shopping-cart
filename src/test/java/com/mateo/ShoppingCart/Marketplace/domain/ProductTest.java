@@ -24,6 +24,8 @@ class ProductTest {
         Executable executable = () -> new Product(id, name, description, price, quantity);
         //Assert
         assertThrows(NullPointerException.class, executable);
+
+
     }
 
     @Test
