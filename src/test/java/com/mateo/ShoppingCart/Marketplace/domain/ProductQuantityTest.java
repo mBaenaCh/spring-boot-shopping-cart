@@ -31,4 +31,17 @@ class ProductQuantityTest {
         assertThrows(IllegalArgumentException.class, executable);
     }
 
+    @Test
+    public void shouldReturnExceptionWhenValueIsGreaterThan50(){
+        //Arrange
+        Integer value = 52;
+
+        //Act
+        Executable executable = () -> new ProductQuantity(value);
+
+        //Assert
+        assertThrows(IllegalArgumentException.class, executable);
+    }
+
+
 }
