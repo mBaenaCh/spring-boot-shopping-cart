@@ -19,4 +19,16 @@ class ProductQuantityTest {
         assertThrows(NullPointerException.class, executable);
     }
 
+    @Test
+    public void shouldReturnExceptionWhenValueIsNegative(){
+        //Arrange
+        Integer value = -5;
+
+        //Act
+        Executable executable = () -> new ProductQuantity(value);
+
+        //Assert
+        assertThrows(IllegalArgumentException.class, executable);
+    }
+
 }
