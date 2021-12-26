@@ -31,4 +31,16 @@ class ProductNameTest {
         assertThrows(IllegalArgumentException.class, executable);
     }
 
+    @Test
+    public void shouldReturnExceptionWhenTheValueHasMoreThan150Characters(){
+        //Arrange
+        String value = "Nam quis nulla. Integer malesuada. In in enim a arcu imperdiet malesuada. Sed vel lectus. Donec odio urna, tempus molestie, porttitor ut, iaculis quis,";
+
+        //Act
+        Executable executable = () -> new ProductName(value);
+
+        //Assert
+        assertThrows(IllegalArgumentException.class, executable);
+    }
+
 }
