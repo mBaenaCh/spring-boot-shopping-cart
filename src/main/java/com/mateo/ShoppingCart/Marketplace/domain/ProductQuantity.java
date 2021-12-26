@@ -23,7 +23,7 @@ public class ProductQuantity {
     }
 
     //Para retornar el valor de esta clase
-    public Integer productQuantityAsInteger(){
+    public Integer asInteger(){
         return this.value;
     }
 }

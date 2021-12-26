@@ -13,7 +13,7 @@ public class ProductName {
 
         String trimmedValue = value.trim();
 
-        if(trimmedValue.length() < 0 || trimmedValue.length() > 150){
+        if(trimmedValue.length() <= 0 || trimmedValue.length() > 150){
             throw new IllegalArgumentException("Product name can not be empty or have more than 150 characters");
         }
 
