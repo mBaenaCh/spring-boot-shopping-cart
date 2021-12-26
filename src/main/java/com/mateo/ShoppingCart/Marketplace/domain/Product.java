@@ -32,11 +32,11 @@ public class Product {
 
     public String setProductClasification(Money price){
         String clasification = "";
-        if(this.price.getValue().compareTo(new BigDecimal(50)) < 0) {
+        if(price.getValue().compareTo(new BigDecimal(50)) < 0) {
             clasification = "Cheap";
-        } else if (new BigDecimal(50).compareTo(this.price.getValue()) < 0 && this.price.getValue().compareTo(new BigDecimal(199)) < 0){
+        } else if (price.getValue().compareTo(new BigDecimal(50)) > 0 && price.getValue().compareTo(new BigDecimal(199)) < 0){
             clasification = "Regular";
-        } else if(this.price.getValue().compareTo(new BigDecimal(199)) > 0){
+        } else if(price.getValue().compareTo(new BigDecimal(199)) > 0){
             clasification = "Expensive";
         }
         return clasification;
