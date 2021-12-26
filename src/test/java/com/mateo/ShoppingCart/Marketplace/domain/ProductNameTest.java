@@ -19,4 +19,16 @@ class ProductNameTest {
         assertThrows(NullPointerException.class, executable);
     }
 
+    @Test
+    public void shouldReturnExceptionWhenTheValueIsEmpty(){
+        //Arrange
+        String value = "";
+
+        //Act
+        Executable executable = () -> new ProductName(value);
+
+        //Assert
+        assertThrows(IllegalArgumentException.class, executable);
+    }
+
 }
