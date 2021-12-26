@@ -43,5 +43,16 @@ class ProductQuantityTest {
         assertThrows(IllegalArgumentException.class, executable);
     }
 
+    @Test
+    public void shouldReturnTheAddedValueBy1(){
+        //Arrange
+        Integer value = 1;
+        ProductQuantity quantity = new ProductQuantity(value);
 
+        //Act
+        ProductQuantity addedValue = quantity.increment();
+
+        //Assert
+        assertEquals(2, addedValue.asInteger());
+    }
 }
