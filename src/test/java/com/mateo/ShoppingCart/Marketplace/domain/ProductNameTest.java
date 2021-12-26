@@ -43,4 +43,17 @@ class ProductNameTest {
         assertThrows(IllegalArgumentException.class, executable);
     }
 
+    @Test
+    public void shouldReturnExceptionWhenTheValueHasSpecialCharacters(){
+        //Arrange
+        String value = "Nam quis nulla. Integer @lesuada. In in enim a arcu imperdiet malesuada. Sed vel lectus. Donec odio urna, tempus molestie, porttitor ut, iaculis quis,";
+
+        //Act
+        Executable executable = () -> new ProductName(value);
+
+        //Assert
+        assertThrows(IllegalArgumentException.class, executable);
+    }
+
+
 }
