@@ -55,5 +55,4 @@ class ProductNameTest {
         assertThrows(IllegalArgumentException.class, executable);
     }
 
-
 }
