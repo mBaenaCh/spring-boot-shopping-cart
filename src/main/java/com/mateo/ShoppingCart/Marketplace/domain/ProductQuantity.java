@@ -13,7 +13,7 @@ public class ProductQuantity {
 
         //Validacion del rango de valores que puede tomar la cantidad del producto
         if(value <= 0 || value > 50){
-            throw new IllegalArgumentException("Product quantity can not be negative or greater than 50");
+            throw new IllegalArgumentException("Product quantity can not be zero, negative or greater than 50");
         }
         this.value = value;
     }

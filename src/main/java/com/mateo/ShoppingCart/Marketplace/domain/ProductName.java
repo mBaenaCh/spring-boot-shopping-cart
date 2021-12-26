@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class ProductName {
 
-    private static final Pattern pattern = Pattern.compile("^[a-zA-Z0-9]{0,150}$");
+    private static final Pattern pattern = Pattern.compile("^[a-zA-Z\\s:]{0,150}$");
     private final String value;
 
     public ProductName(String value){
