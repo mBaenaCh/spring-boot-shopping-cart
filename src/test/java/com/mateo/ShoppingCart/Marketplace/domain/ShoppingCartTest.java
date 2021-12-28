@@ -110,4 +110,47 @@ class ShoppingCartTest {
         assertThrows(IllegalArgumentException.class, executable);
     }
 
+    @Test
+    public void shouldReturnNullPointerExceptionWhenTheClientIdIsNull(){
+        //Arrange
+        ClientId clientId1 = null;
+
+        //Act
+        Executable executable=  () -> new ShoppingCart(clientId1, createdAt, updatedAt, products);
+        //Assert
+        assertThrows(NullPointerException.class, executable);
+    }
+
+    @Test
+    public void shouldReturnNullPointerExceptionWhenTheCreatedAtDateIsNull(){
+        //Arrange
+        Instant createdAt1 = null;
+
+        //Act
+        Executable executable=  () -> new ShoppingCart(clientId, createdAt1, updatedAt, products);
+        //Assert
+        assertThrows(NullPointerException.class, executable);
+    }
+
+    @Test
+    public void shouldReturnNullPointerExceptionWhenTheUpdatedAtDateIsNull(){
+        //Arrange
+        Instant updatedAt1 = null;
+
+        //Act
+        Executable executable=  () -> new ShoppingCart(clientId, createdAt, updatedAt1, products);
+        //Assert
+        assertThrows(NullPointerException.class, executable);
+    }
+
+    @Test
+    public void shouldReturnNullPointerExceptionWhenTheMapOfProductsIsNull(){
+        //Arrange
+        Map<UUID, Product> products1 = null;
+
+        //Act
+        Executable executable=  () -> new ShoppingCart(clientId, createdAt, updatedAt, products1);
+        //Assert
+        assertThrows(NullPointerException.class, executable);
+    }
 }
