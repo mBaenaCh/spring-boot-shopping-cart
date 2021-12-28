@@ -1,9 +1,12 @@
 package com.mateo.ShoppingCart.Marketplace.domain;
 
+import lombok.Getter;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.*;
 
+@Getter
 public class ShoppingCart {
 
     private static final BigDecimal DISCOUNT_PERCENTAGE = BigDecimal.valueOf(0.5);
@@ -21,18 +24,39 @@ public class ShoppingCart {
     /* Definimos una clase para gestionar los valores monetarios en funcion de la cantidad y la divisa*/
     private final Money total;
 
-    public ShoppingCart(ClientId clientId, Instant creationDate, Instant updateDate, Map<UUID, Product> products, Money total){
+    public ShoppingCart(ClientId clientId, Instant creationDate, Instant updateDate, Map<UUID, Product> products){
         Objects.requireNonNull(clientId, "The Client Id must not be null");
-        Objects.requireNonNull(total, "The total amount of the Shopping cart must not be null");
+        //Objects.requireNonNull(total, "The total amount of the Shopping cart must not be null");
+
+        BigDecimal sum = new BigDecimal(0);
+
+        /*Boolean isValid = validateProductsList();
+        if(!isValid){
+            throw new IllegalArgumentException("There can not be more than 1 Expensive product or more than 10 Normal products");
+        }*/
 
         this.clientId = clientId;
         this.creationDate = creationDate;
         this.updateDate = updateDate;
         this.products = products;
-        this.total = total;
+        this.total = calculateTotalPrice(products);
     }
 
     /*Funcionalidades del Shopping cart*/
+
+    public Money calculateTotalPrice(Map<UUID, Product> products){
+
+        Money totalValue;
+        BigDecimal sum = new BigDecimal(0);
+        sum = products.values(). //Obtenemos los objetos del mapa
+                stream().
+                map(Product::getPrice). //Extraemos los objetos money
+                map(Money::getValue).   //Extraemos los valores de los objetos money
+                reduce(BigDecimal.ZERO, (a,b) -> a.add(b));
+
+        totalValue = new Money(sum, Badge.USD);
+        return totalValue;
+    }
 
     public static BigDecimal productDiscountCalculator(BigDecimal price, BigDecimal discount){
             BigDecimal discountCalculation = price.multiply(discount);
