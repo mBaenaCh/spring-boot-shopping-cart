@@ -1,6 +1,7 @@
 package com.mateo.ShoppingCart.Marketplace.domain;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -37,8 +38,8 @@ class ShoppingCartTest {
     ProductQuantity quantity3 = new ProductQuantity(1);
 
     ProductId pId4 = new ProductId(UUID.randomUUID());
-    ProductName name4 = new ProductName("Test product name three");
-    ProductDescription description4 = new ProductDescription("Test product description three");
+    ProductName name4 = new ProductName("Test product name four");
+    ProductDescription description4 = new ProductDescription("Test product description four");
     Money price4 = new Money(new BigDecimal(101), usd);
     ProductQuantity quantity4 = new ProductQuantity(1);
 
@@ -83,4 +84,30 @@ class ShoppingCartTest {
         assertEquals(2,amountOfRegular);
         assertEquals(1,amountOfCheap);
     }
+
+    @Test
+    public void shouldReturnIllegalArgumentExceptionWhenTheListOfProductsHasMoreThan1ExpensiveProduct(){
+        //Arrange
+        products.put(p1.getProductId().value(), p1);
+        products.put(p2.getProductId().value(), p2);
+        products.put(p3.getProductId().value(), p3);
+        products.put(p4.getProductId().value(), p4);
+
+        ProductId pId5 = new ProductId(UUID.randomUUID());
+        ProductName name5 = new ProductName("Test product name five");
+        ProductDescription description5 = new ProductDescription("Test product description five");
+        Money price5 = new Money(new BigDecimal(201), usd);
+        ProductQuantity quantity5 = new ProductQuantity(1);
+        Product p5 = new Product(pId5, name5, description5, price5, quantity5);
+
+        products.put(p5.getProductId().value(), p5);
+
+
+        //Act
+        Executable executable=  () -> new ShoppingCart(clientId, createdAt, updatedAt, products);
+
+        //Assert
+        assertThrows(IllegalArgumentException.class, executable);
+    }
+
 }
