@@ -65,6 +65,14 @@ public class ShoppingCart {
         return appliedDiscount;
     }
 
+    public Integer getAmountOfRepeatedProducts(Map<UUID, Product> products){
+        Long quantity = products.entrySet().
+                stream().
+                filter(e -> e.getValue().getQuantity().asInteger().equals(3)).
+                map(Map.Entry::getValue).count();
+        return quantity.intValue();
+    }
+
     public Integer getAmountOfProductsPerClasification(String clasification, Map<UUID, Product> products){
 
         Long amount = products.entrySet(). //Definimos los elementos a recorrer en el Map

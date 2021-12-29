@@ -170,4 +170,22 @@ class ShoppingCartTest {
         //Pendiente por consultar aproximacion en numeros BigDecimal, dado que la operacion de la funcion da distinta a la esperada
         assertEquals(new BigDecimal(293.4).setScale(2, RoundingMode.HALF_EVEN), newTotal.setScale(2, RoundingMode.HALF_EVEN));
     }
+
+    @Test
+    public void shouldReturnTheAmountOfRepeatedProducts(){
+        //Arrange
+        p1.getQuantity().incrementValue();
+        p1.getQuantity().incrementValue();
+        p2.getQuantity().incrementValue();
+        p2.getQuantity().incrementValue();
+        products.put(p1.getProductId().value(), p1);
+        products.put(p2.getProductId().value(), p2);
+        ShoppingCart shoppingCart = new ShoppingCart(clientId, createdAt, updatedAt, products);
+
+        //Act
+        Integer amountOfRepeated = shoppingCart.getAmountOfRepeatedProducts(products);
+
+        //Assert
+        assertEquals(2, amountOfRepeated);
+    }
 }
