@@ -40,6 +40,7 @@ public class ShoppingCart {
         this.updatedAt = updatedAt;
         this.products = products;
         this.total = calculateTotalPrice(products);
+
     }
 
     /*Funcionalidades del Shopping cart*/
@@ -58,7 +59,7 @@ public class ShoppingCart {
         return totalValue;
     }
 
-    public static BigDecimal productDiscountCalculator(BigDecimal price, BigDecimal discount){
+    public BigDecimal productDiscountCalculator(BigDecimal price, BigDecimal discount){
             BigDecimal discountCalculation = price.multiply(discount);
             BigDecimal appliedDiscount = price.subtract(discountCalculation);
         return appliedDiscount;
@@ -84,4 +85,6 @@ public class ShoppingCart {
             return true;
         }
     }
+
+
 }

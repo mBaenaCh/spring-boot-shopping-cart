@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
@@ -152,5 +153,21 @@ class ShoppingCartTest {
         Executable executable=  () -> new ShoppingCart(clientId, createdAt, updatedAt, products1);
         //Assert
         assertThrows(NullPointerException.class, executable);
+    }
+
+    @Test
+    public void shouldReturnTheCalculatedDiscountAppliedToAPrice(){
+        //Arrange
+        products.put(p1.getProductId().value(), p1);
+        products.put(p2.getProductId().value(), p2);
+        products.put(p3.getProductId().value(), p3);
+
+        ShoppingCart shoppingCart = new ShoppingCart(clientId, createdAt, updatedAt, products);
+        //Act
+        BigDecimal newTotal = shoppingCart.productDiscountCalculator(shoppingCart.getTotal().getValue(), new BigDecimal(0.10));
+
+        //Assert
+        //Pendiente por consultar aproximacion en numeros BigDecimal, dado que la operacion de la funcion da distinta a la esperada
+        assertEquals(new BigDecimal(293.4).setScale(2, RoundingMode.HALF_EVEN), newTotal.setScale(2, RoundingMode.HALF_EVEN));
     }
 }
