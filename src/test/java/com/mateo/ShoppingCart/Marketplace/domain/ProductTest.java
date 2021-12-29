@@ -133,5 +133,22 @@ class ProductTest {
 
     }
 
+    @Test
+    public void shouldIncrementTheValueFromAProductQuantity(){
+        //Arrange
+        UUID id = UUID.randomUUID();
+        ProductId prodId = new ProductId(id);
+        ProductName name = new ProductName("Product name test");
+        ProductDescription description = new ProductDescription("Product description test");
+        Badge usd = Badge.USD;
+        Money price = new Money(new BigDecimal(51), usd);
+        ProductQuantity quantity = new ProductQuantity(1);
+        Product p2 = new Product(prodId, name, description, price, quantity);
+        //Act
+        p2.getQuantity().incrementValue();
+        //Assert
+        assertEquals(2, p2.getQuantity().asInteger());
+    }
+
 
 }
