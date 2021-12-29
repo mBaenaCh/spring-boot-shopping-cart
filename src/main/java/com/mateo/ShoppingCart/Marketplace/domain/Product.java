@@ -13,7 +13,7 @@ public class Product {
     private final ProductDescription description;
     private final Money price; //Valor monetario basado en
     private final String clasification;
-    private final ProductQuantity quantity;
+    private ProductQuantity quantity; //Deberia ser final? Yo digo que no, es una variable que deberia cambiar de estado para cada objeto
 
     public Product(ProductId productId, ProductName name, ProductDescription description, Money price, ProductQuantity quantity){
         Objects.requireNonNull(productId, "The Product id must not be null");
@@ -41,4 +41,5 @@ public class Product {
         }
         return clasification;
     }
+
 }

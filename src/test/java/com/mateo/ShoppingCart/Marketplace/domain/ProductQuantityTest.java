@@ -50,9 +50,9 @@ class ProductQuantityTest {
         ProductQuantity quantity = new ProductQuantity(value);
 
         //Act
-        ProductQuantity addedValue = quantity.increment();
+        quantity.incrementValue();
 
         //Assert
-        assertEquals(2, addedValue.asInteger());
+        assertEquals(2, quantity.asInteger());
     }
 }

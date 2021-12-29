@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class ProductQuantity {
 
-    private final Integer value;
+    private Integer value;
 
     public ProductQuantity(Integer value){
 
@@ -18,8 +18,8 @@ public class ProductQuantity {
         this.value = value;
     }
     //Para incrementar el valor de la cantidad del producto
-    public ProductQuantity increment(){
-        return new ProductQuantity(value + 1);
+    public void incrementValue(){
+        this.value += 1;
     }
 
     //Para retornar el valor de esta clase
