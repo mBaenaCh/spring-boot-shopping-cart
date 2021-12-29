@@ -9,7 +9,7 @@ import java.util.UUID;
 public record ClientId(UUID value) {
 
     public ClientId{
-        Objects.requireNonNull(value);
+        Objects.requireNonNull(value, "The client ID can not be null");
     }
     /* Metodo estatico para generar un UUID random*/
     public static ClientId generateUUID(){
