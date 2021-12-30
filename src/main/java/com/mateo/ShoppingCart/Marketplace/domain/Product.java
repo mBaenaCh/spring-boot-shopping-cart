@@ -11,7 +11,7 @@ public class Product {
     private final ProductId productId; //Identificador unico de un objeto
     private final ProductName name;
     private final ProductDescription description;
-    private final Money price; //Valor monetario basado en
+    private final Money price; //Valor monetario
     private final String clasification;
     private ProductQuantity quantity; //Deberia ser final? Yo digo que no, es una variable que deberia cambiar de estado para cada objeto
 

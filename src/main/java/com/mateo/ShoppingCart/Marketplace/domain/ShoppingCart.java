@@ -19,16 +19,16 @@ public class ShoppingCart {
     private final Instant updatedAt;
 
     /* Definimos una estructura de datos basada en los identificadores de objetos y el objeto asociado al identificador*/
-    private final Map<UUID,Product> products;
+    private Map<UUID,Product> products;
 
     /* Definimos una clase para gestionar los valores monetarios en funcion de la cantidad y la divisa*/
-    private final Money total;
+    private Money total;
 
     public ShoppingCart(ClientId clientId, Instant createdAt, Instant updatedAt, Map<UUID, Product> products){
         Objects.requireNonNull(clientId, "The Client Id must not be null");
         Objects.requireNonNull(createdAt, "The creation date must not be null");
         Objects.requireNonNull(updatedAt, "The update date must not be null");
-        Objects.requireNonNull(products, "The products list must not be null");
+        Objects.requireNonNull(products, "The product list must not be null");
 
         Boolean isValid = validateProductsList(products);
         if(!isValid){
@@ -39,8 +39,6 @@ public class ShoppingCart {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.products = products;
-        this.total = calculateTotalPrice(products);
-
     }
 
     /*Funcionalidades del Shopping cart*/
@@ -83,6 +81,22 @@ public class ShoppingCart {
         return amount.intValue();
     }
 
+    public BigDecimal getDiscountPercentage(Integer amountOfRepeated){
+
+        BigDecimal discount = BigDecimal.ZERO;
+
+        if(amountOfRepeated.equals(1)){
+            discount = new BigDecimal(0.3);
+        }
+        else if (amountOfRepeated.equals(2)){
+            discount = new BigDecimal(0.6);
+        } else if (amountOfRepeated.equals(3)) {
+            discount = new BigDecimal(0.9);
+        }
+
+        return discount;
+    }
+
     public Boolean validateProductsList(Map<UUID, Product> products) {
         Integer amountOfExpensive = getAmountOfProductsPerClasification("Expensive", products);
         Integer amountOfNormal = getAmountOfProductsPerClasification("Normal", products);
@@ -94,5 +108,15 @@ public class ShoppingCart {
         }
     }
 
+    public void addProduct(Product product){
+        this.products.put(product.getProductId().value(), product);
+    }
 
+    public void deleteProduct(UUID productId){
+        this.products.remove(productId);
+    }
+
+    public void setTotal(Money total){
+        this.total = total;
+    }
 }
