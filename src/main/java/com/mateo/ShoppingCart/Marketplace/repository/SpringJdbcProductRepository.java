@@ -3,9 +3,11 @@ package com.mateo.ShoppingCart.Marketplace.repository;
 import com.mateo.ShoppingCart.Marketplace.domain.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class SpringJdbcProductRepository implements ProductRepository{
     /*  Instanciamos un objeto del tipo JdbcTemplate que sera usado para la gestion
     *   de la conexion a la base de datos.
