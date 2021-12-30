@@ -54,9 +54,9 @@ public class SpringJdbcProductRepository implements ProductRepository{
     }
 
     @Override
-    public Product getProductById(ProductId productId) {
+    public Product getProductById(ProductId id) {
         String query = "Select * FROM product WHERE product_id = ?";
-        return jdbcTemplate.queryForObject(query, rowMapper, productId.toString());
+        return jdbcTemplate.queryForObject(query, rowMapper, id.toString());
     }
 
     @Override
@@ -70,12 +70,13 @@ public class SpringJdbcProductRepository implements ProductRepository{
     }
 
     @Override
-    public void updateProductById(ProductId productId, Product product) {
-
+    public void updateProductById(ProductId id, Product product) {
+        String query = "UPDATE product SET product_id = ?, name = ?, description = ?, price = ?, quantity = ? WHERE product_id = ?";
+        jdbcTemplate.update(query, id.toString(), product.getName().toString(), product.getDescription().toString(), product.getPrice().toString(), product.getQuantity().toString(), id.toString());
     }
 
     @Override
-    public void deleteProductById(ProductId productId) {
+    public void deleteProductById(ProductId id) {
 
     }
 }
