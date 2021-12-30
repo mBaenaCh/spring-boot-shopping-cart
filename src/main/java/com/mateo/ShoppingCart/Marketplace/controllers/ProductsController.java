@@ -3,6 +3,8 @@ package com.mateo.ShoppingCart.Marketplace.controllers;
 import com.mateo.ShoppingCart.Marketplace.domain.*;
 import com.mateo.ShoppingCart.Marketplace.model.CreateProductInput;
 import com.mateo.ShoppingCart.Marketplace.model.CreateProductOutput;
+import com.mateo.ShoppingCart.Marketplace.model.UpdateProductInput;
+import com.mateo.ShoppingCart.Marketplace.model.UpdateProductOutput;
 import com.mateo.ShoppingCart.Marketplace.services.ProductServices;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +29,6 @@ public class ProductsController {
         this.productService = productServices;
     }
 
-    //El cual es un Request mapping con el metodo Post
     @PostMapping
     /* La anotacion RequestBody nos permite recibir un JSON que sera convertido al formato especificado
      * en el parametro de entrada
@@ -50,7 +51,6 @@ public class ProductsController {
         return new CreateProductOutput(createdProduct);
     }
 
-    //El cual es un Request mapping con el metodo Get
     @GetMapping
     public List<Product> getAllProducts(){
         return productService.getAllProducts();
@@ -60,12 +60,26 @@ public class ProductsController {
     @GetMapping(value = "/{id}")
     //La anotacion PathVariable nos permite manejar ese parametro que es enviado con la ruta
     public Product getProductById(
-            @PathVariable String id){
-        ProductId productId = ProductId.generateUUIDFromString(id);
+            @PathVariable("id") String id){
+        final ProductId productId = ProductId.generateUUIDFromString(id);
         return productService.getProductById(productId);
     }
 
-    
+    @PutMapping(value = "/{id}")
+    public UpdateProductOutput updateProductById(
+            @PathVariable("id") String id,
+            @RequestBody UpdateProductInput input){
+        final ProductId productId = ProductId.generateUUIDFromString(id);
+        Product newProduct = new Product(
+                productId,
+                new ProductName(input.getName()),
+                new ProductDescription(input.getDescription()),
+                new Money(new BigDecimal(input.getPrice().floatValue()), Badge.USD),
+                new ProductQuantity(input.getQuantity())
+        );
+        final Product updatedProduct = productService.updateProductById(productId, newProduct);
 
+        return new UpdateProductOutput(updatedProduct);
+    }
 
 }
