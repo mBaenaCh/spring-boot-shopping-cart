@@ -87,5 +87,4 @@ public class ProductsController {
         final ProductId productId = ProductId.generateUUIDFromString(id);
         productService.deleteProductById(productId);
     }
-
 }

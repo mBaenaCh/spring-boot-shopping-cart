@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class ProductDescription {
 
-    private static final Pattern pattern = Pattern.compile("^[a-zA-Z\\s:]{0,250}$");
+    private static final Pattern pattern = Pattern.compile("^[a-zA-Z0-9\\s:]{0,250}$");
     private final String value;
 
     public ProductDescription (String value){
