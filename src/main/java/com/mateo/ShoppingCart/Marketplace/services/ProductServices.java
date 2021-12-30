@@ -31,4 +31,10 @@ public class ProductServices {
     public Product getProductById(ProductId id){
         return repository.getProductById(id);
     }
+
+    public Product updateProductById(ProductId id, Product product){
+        repository.updateProductById(id, product);
+
+        return product;
+    }
 }
