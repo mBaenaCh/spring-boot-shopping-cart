@@ -4,12 +4,10 @@ import com.mateo.ShoppingCart.Marketplace.domain.*;
 import com.mateo.ShoppingCart.Marketplace.model.CreateProductInput;
 import com.mateo.ShoppingCart.Marketplace.model.CreateProductOutput;
 import com.mateo.ShoppingCart.Marketplace.services.ProductServices;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /* Con nuestro controller definiremos las funcionalidades que actuaran sobre nuestro modelo del dominio
  *
@@ -23,12 +21,13 @@ import java.math.BigDecimal;
 @RequestMapping(value="/products")
 public class ProductsController {
 
-    private ProductServices productServices;
+    private ProductServices productService;
 
     public ProductsController (ProductServices productServices){
-        this.productServices = productServices;
+        this.productService = productServices;
     }
 
+    //El cual es un Request mapping con el metodo Post
     @PostMapping
     /* La anotacion RequestBody nos permite recibir un JSON que sera convertido al formato especificado
      * en el parametro de entrada
@@ -44,10 +43,29 @@ public class ProductsController {
         Money price = new Money( new BigDecimal(input.getPrice().floatValue()), Badge.USD); //Por revisar
         ProductQuantity productQuantity = new ProductQuantity(input.getQuantity());
 
+        /* Creamos una instancia basada en el modelo del dominio para su gestion en las capas subyacentes*/
         Product product = new Product(id, productName, productDescription, price, productQuantity);
-        Product createdProduct = productServices.createProduct(product);
+        Product createdProduct = productService.createProduct(product);
 
         return new CreateProductOutput(createdProduct);
     }
+
+    //El cual es un Request mapping con el metodo Get
+    @GetMapping
+    public List<Product> getAllProducts(){
+        return productService.getAllProducts();
+    }
+
+    //Añadimos a la ruta un parametro de Id que se espera recibir para esta consulta
+    @GetMapping(value = "/{id}")
+    //La anotacion PathVariable nos permite manejar ese parametro que es enviado con la ruta
+    public Product getProductById(
+            @PathVariable String id){
+        ProductId productId = ProductId.generateUUIDFromString(id);
+        return productService.getProductById(productId);
+    }
+
+    
+
 
 }
