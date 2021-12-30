@@ -56,14 +56,14 @@ class ShoppingCartTest {
         //Arrange
         products.put(p1.getProductId().value(), p1);
         products.put(p2.getProductId().value(), p2);
-
         ShoppingCart shoppingCart = new ShoppingCart(clientId, createdAt, updatedAt, products);
-
+        shoppingCart.addProduct(p3);
+        shoppingCart.addProduct(p4);
         //Act
-        BigDecimal calculatedValue = shoppingCart.getTotal().getValue();
-
+        BigDecimal calculatedValue = shoppingCart.calculateTotalPrice(shoppingCart.getProducts()).getValue();
+        shoppingCart.setTotal(new Money(calculatedValue, Badge.USD));
         //Assert
-        assertEquals(new BigDecimal(125), calculatedValue);
+        assertEquals(new BigDecimal(427), shoppingCart.getTotal().getValue());
     }
 
     @Test
@@ -105,7 +105,7 @@ class ShoppingCartTest {
 
 
         //Act
-        Executable executable=  () -> new ShoppingCart(clientId, createdAt, updatedAt, products);
+        Executable executable = () -> new ShoppingCart(clientId, createdAt, updatedAt, products);
 
         //Assert
         assertThrows(IllegalArgumentException.class, executable);
@@ -117,7 +117,7 @@ class ShoppingCartTest {
         ClientId clientId1 = null;
 
         //Act
-        Executable executable=  () -> new ShoppingCart(clientId1, createdAt, updatedAt, products);
+        Executable executable = () -> new ShoppingCart(clientId1, createdAt, updatedAt, products);
         //Assert
         assertThrows(NullPointerException.class, executable);
     }
@@ -128,7 +128,7 @@ class ShoppingCartTest {
         Instant createdAt1 = null;
 
         //Act
-        Executable executable=  () -> new ShoppingCart(clientId, createdAt1, updatedAt, products);
+        Executable executable = () -> new ShoppingCart(clientId, createdAt1, updatedAt, products);
         //Assert
         assertThrows(NullPointerException.class, executable);
     }
@@ -139,7 +139,7 @@ class ShoppingCartTest {
         Instant updatedAt1 = null;
 
         //Act
-        Executable executable=  () -> new ShoppingCart(clientId, createdAt, updatedAt1, products);
+        Executable executable = () -> new ShoppingCart(clientId, createdAt, updatedAt1, products);
         //Assert
         assertThrows(NullPointerException.class, executable);
     }
@@ -150,7 +150,7 @@ class ShoppingCartTest {
         Map<UUID, Product> products1 = null;
 
         //Act
-        Executable executable=  () -> new ShoppingCart(clientId, createdAt, updatedAt, products1);
+        Executable executable = () -> new ShoppingCart(clientId, createdAt, updatedAt, products1);
         //Assert
         assertThrows(NullPointerException.class, executable);
     }
@@ -164,10 +164,64 @@ class ShoppingCartTest {
 
         ShoppingCart shoppingCart = new ShoppingCart(clientId, createdAt, updatedAt, products);
         //Act
+        shoppingCart.setTotal(shoppingCart.calculateTotalPrice(products));
         BigDecimal newTotal = shoppingCart.productDiscountCalculator(shoppingCart.getTotal().getValue(), new BigDecimal(0.10));
 
         //Assert
         //Pendiente por consultar aproximacion en numeros BigDecimal, dado que la operacion de la funcion da distinta a la esperada
         assertEquals(new BigDecimal(293.4).setScale(2, RoundingMode.HALF_EVEN), newTotal.setScale(2, RoundingMode.HALF_EVEN));
+    }
+
+    @Test
+    public void shouldReturnTheAmountOfRepeatedProducts(){
+        //Arrange
+        p1.getQuantity().incrementValue();
+        p1.getQuantity().incrementValue();
+        p2.getQuantity().incrementValue();
+        p2.getQuantity().incrementValue();
+        products.put(p1.getProductId().value(), p1);
+        products.put(p2.getProductId().value(), p2);
+        ShoppingCart shoppingCart = new ShoppingCart(clientId, createdAt, updatedAt, products);
+
+        //Act
+        Integer amountOfRepeated = shoppingCart.getAmountOfRepeatedProducts(products);
+
+        //Assert
+        assertEquals(2, amountOfRepeated);
+    }
+
+    @Test
+    public void shouldReturnADiscountPercentageWithAGivenAmountOfRepeatedProducts(){
+        //Arrange
+        p1.getQuantity().incrementValue();
+        p1.getQuantity().incrementValue();
+        //p2.getQuantity().incrementValue();
+        p2.getQuantity().incrementValue();
+        products.put(p1.getProductId().value(), p1);
+        products.put(p2.getProductId().value(), p2);
+        ShoppingCart shoppingCart = new ShoppingCart(clientId, createdAt, updatedAt, products);
+
+        //Act
+        Integer amountOfRepeated = shoppingCart.getAmountOfRepeatedProducts(products);
+        BigDecimal discountPercentage = shoppingCart.getDiscountPercentage( amountOfRepeated);
+
+        //Assert
+        assertEquals(new BigDecimal(0.3), discountPercentage);
+    }
+
+    @Test
+    public void shouldReduceTheTotalPriceWhenAProductIsDeletedFromTheList(){
+        //Arrange
+        products.put(p1.getProductId().value(), p1);
+        products.put(p2.getProductId().value(), p2);
+        products.put(p3.getProductId().value(), p3);
+
+        ShoppingCart shoppingCart = new ShoppingCart(clientId, createdAt, updatedAt, products);
+
+        //Act
+        shoppingCart.deleteProduct(p1.getProductId().value());
+        BigDecimal total = shoppingCart.calculateTotalPrice(products).getValue();
+        //Assert
+        assertEquals(new BigDecimal(302), total);
     }
 }
