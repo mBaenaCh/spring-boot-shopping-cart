@@ -11,7 +11,7 @@ public class Product {
     private final ProductId productId; //Identificador unico de un objeto
     private final ProductName name;
     private final ProductDescription description;
-    private final Money price; //Valor monetario
+    private Money price; //Valor monetario
     private final String clasification;
     private ProductQuantity quantity; //Deberia ser final? Yo digo que no, es una variable que deberia cambiar de estado para cada objeto
 
@@ -43,4 +43,8 @@ public class Product {
         return clasification;
     }
 
+    public void setPriceByQuantity(ProductQuantity quantity){
+        BigDecimal newPrice = this.price.getValue().multiply(new BigDecimal(quantity.asInteger()));
+        this.price = new Money(newPrice, Badge.USD);
+    }
 }
