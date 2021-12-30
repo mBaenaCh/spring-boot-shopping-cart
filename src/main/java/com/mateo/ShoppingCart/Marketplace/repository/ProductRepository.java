@@ -8,12 +8,12 @@ import java.util.List;
 public interface ProductRepository {
     List<Product> getAllProducts();
 
-    Product getProductById(ProductId productId);
+    Product getProductById(ProductId id);
 
     void createProduct(Product product);
 
-    void updateProductById(ProductId productId, Product product);
+    void updateProductById(ProductId id, Product product);
 
-    void deleteProductById(ProductId productId);
+    void deleteProductById(ProductId id);
 
 }
