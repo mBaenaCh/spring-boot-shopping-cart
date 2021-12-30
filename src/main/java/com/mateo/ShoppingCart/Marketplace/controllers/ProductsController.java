@@ -31,8 +31,7 @@ public class ProductsController {
 
     @PostMapping
     /* La anotacion RequestBody nos permite recibir un JSON que sera convertido al formato especificado
-     * en el parametro de entrada
-     */
+     * en el parametro de entrada */
     public CreateProductOutput createProduct(
             @RequestBody CreateProductInput input){
         /* Posteriormente solo nos queda procesar los datos recibidos en el input hacia
@@ -80,6 +79,13 @@ public class ProductsController {
         final Product updatedProduct = productService.updateProductById(productId, newProduct);
 
         return new UpdateProductOutput(updatedProduct);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public void deleteProductById(
+            @PathVariable("id") String id){
+        final ProductId productId = ProductId.generateUUIDFromString(id);
+        productService.deleteProductById(productId);
     }
 
 }
