@@ -30,6 +30,7 @@ public class Product {
         this.quantity = quantity;
     }
 
+    /*POR MEJORAR: usar un enum o variables globales para nombrar los "tipos de clasificaciones"*/
     public String setProductClasification(Money price){
         String clasification = "";
         if(price.getValue().compareTo(new BigDecimal(50)) < 0) {
