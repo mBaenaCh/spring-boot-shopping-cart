@@ -23,18 +23,22 @@ public class ProductServices {
         return repository.getAllProducts();
     }
 
+    public Product getProductById(ProductId id){
+        return repository.getProductById(id);
+    }
+
     public Product createProduct(Product product){
         repository.createProduct(product);
         return product;
-    }
-
-    public Product getProductById(ProductId id){
-        return repository.getProductById(id);
     }
 
     public Product updateProductById(ProductId id, Product product){
         repository.updateProductById(id, product);
 
         return product;
+    }
+
+    public void deleteProductById(ProductId id){
+        repository.deleteProductById(id);
     }
 }
