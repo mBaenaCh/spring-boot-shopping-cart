@@ -5,6 +5,7 @@ package com.mateo.ShoppingCart.Marketplace.services;
  *  repository*/
 
 import com.mateo.ShoppingCart.Marketplace.domain.Product;
+import com.mateo.ShoppingCart.Marketplace.domain.ProductId;
 import com.mateo.ShoppingCart.Marketplace.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +28,7 @@ public class ProductServices {
         return product;
     }
 
-
+    public Product getProductById(ProductId id){
+        return repository.getProductById(id);
+    }
 }
