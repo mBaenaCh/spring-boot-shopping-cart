@@ -77,6 +77,7 @@ public class SpringJdbcProductRepository implements ProductRepository{
 
     @Override
     public void deleteProductById(ProductId id) {
-
+        String query = "DELETE FROM product WHERE product_id = ?";
+        jdbcTemplate.update(query, id.toString());
     }
 }
