@@ -55,7 +55,8 @@ public class SpringJdbcProductRepository implements ProductRepository{
 
     @Override
     public Product getProductById(ProductId productId) {
-        return null;
+        String query = "Select * FROM product WHERE product_id = ?";
+        return jdbcTemplate.queryForObject(query, rowMapper, productId.toString());
     }
 
     @Override
