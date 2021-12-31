@@ -224,4 +224,15 @@ class ShoppingCartTest {
         //Assert
         assertEquals(new BigDecimal(302), total);
     }
+
+    @Test
+    public void shouldAddAProductToTheShoppingCart(){
+        //Arrange
+        ShoppingCart shoppingCart = new ShoppingCart(clientId, createdAt, updatedAt, products);
+        //Act
+        shoppingCart.addProduct(p1);
+        shoppingCart.addProduct(p2);
+        //Assert
+        assertEquals(2, shoppingCart.getProducts().size());
+    }
 }
