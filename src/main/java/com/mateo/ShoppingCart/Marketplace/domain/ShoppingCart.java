@@ -30,9 +30,11 @@ public class ShoppingCart {
         Objects.requireNonNull(updatedAt, "The update date must not be null");
         Objects.requireNonNull(products, "The product list must not be null");
 
-        Boolean isValid = validateProductsList(products);
-        if(!isValid){
-            throw new IllegalArgumentException("There can not be more than 1 Expensive product or more than 10 Normal products");
+        if(products.size() != 0){
+            Boolean isValid = validateProductsList(products);
+            if(!isValid){
+                throw new IllegalArgumentException("There can not be more than 1 Expensive product or more than 10 Normal products");
+            }
         }
 
         this.clientId = clientId;
