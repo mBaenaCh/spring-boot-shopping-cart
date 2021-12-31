@@ -28,7 +28,6 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation group: 'com.zaxxer', name: 'HikariCP', version: '5.0.0'
 	implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.1'
-	implementation 'org.simpleflatmapper:sfm-springjdbc:8.2.3'
 }
 
 test {
