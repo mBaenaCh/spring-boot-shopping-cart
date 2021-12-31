@@ -2,7 +2,9 @@ package com.mateo.ShoppingCart.Marketplace.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @AllArgsConstructor
 @Data //Nos trae los metodos getter, setter, toString, etc.
 public class CreateProductInput {
