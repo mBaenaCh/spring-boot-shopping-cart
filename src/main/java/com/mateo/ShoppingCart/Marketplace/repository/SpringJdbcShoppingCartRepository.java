@@ -39,21 +39,12 @@ public class SpringJdbcShoppingCartRepository implements ShoppingCartRepository{
     }
 
     @Override
-    public void increaseProductQuantity() {
-        /* 1) Se busca el producto al cual se le incrementara el valor de cantidad
-         * 2) Se actualiza el valor de cantidad de producto encontrado
-         * 3) Se actualiza el valor de precio del producto encontrado
-         * 4) Se actualiza el valor del total
-         * 5) Se actualiza el valor de fecha de actualizacion
-         */
-    }
-
-    @Override
-    public void decreaseProductQuantity() {
-        /* 1) Se busca el producto al cual se le restara el valor de cantidad
-        *  2) Se actualiza el valor de cantidad del producto encontrado
-        *  3) Se actualiza el valor de precio del producto encontrado
-        *  4) Se actualiza el valor del total
-        *  5) Se actualiza el valor de fecha de actualizacion*/
+    public void updateProductQuantity(ProductId id, Money price, ProductQuantity quantity) {
+        /* En este nivel, incrementar o reducir la cantidad de un producto implica solo modificar los campos de cantidad y precio que vienen del Service ya calculados*/
+        String query = "UPDATE product SET price = ?, quantity = ? WHERE product_id = ?";
+        jdbcTemplate.update(query,
+                            price.getValue(),
+                            quantity.asInteger(),
+                            id.toString());
     }
 }

@@ -6,9 +6,8 @@ public interface ShoppingCartRepository {
 
     void addProductToShoppingCart(ProductId productId, ClientId shoppingCartId);
 
-    void removeProductFromShoppingCart(ProductId id);
+    void removeProductFromShoppingCart(ProductId productId);
 
-    void increaseQuantity();
+    void updateProductQuantity(ProductId productId, Money price, ProductQuantity productQuantity);
 
-    void decreaseQuantity();
 }
