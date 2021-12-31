@@ -16,7 +16,7 @@ public class ShoppingCart {
     /* Usamos Instant para obtener una estampa de tiempo calculada por Java y no
        por el sistema (A diferencia de LocalDate)  */
     private final Instant createdAt;
-    private final Instant updatedAt;
+    private Instant updatedAt;
 
     /* Definimos una estructura de datos basada en los identificadores de objetos y el objeto asociado al identificador*/
     private Map<UUID,Product> products;
@@ -120,5 +120,13 @@ public class ShoppingCart {
 
     public void setTotal(Money total){
         this.total = total;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
