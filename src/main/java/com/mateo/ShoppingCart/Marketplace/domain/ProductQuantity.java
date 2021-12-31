@@ -22,6 +22,10 @@ public class ProductQuantity {
         this.value += 1;
     }
 
+    public void decreaseValue(){
+        this.value -= 1;
+    }
+
     //Para retornar el valor de esta clase
     public Integer asInteger(){
         return this.value;
