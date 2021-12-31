@@ -20,30 +20,26 @@ public class SpringJdbcShoppingCartRepository implements ShoppingCartRepository{
     /*Usando JDBC debemos realizar la consulta que deseamos para */
 
     @Override
-    public void addProductToShoppingCart(ProductId productId, ClientId id) {
-
+    public void addProductToShoppingCart(ProductId productId, ClientId shoppingCartid) {
+        /* En este nivel, añadir un producto al carrito solo implica asignar a uno de los productos el id del shopping cart,
+        *  que en este caso se representa con el ClientId*/
         String query = "UPDATE product SET shopping_cart_id = ? WHERE product_id = ?";
 
         jdbcTemplate.update(query,
-                            id.toString(),
+                            shoppingCartid.toString(),
                             productId.toString());
-        /* 1) Se añade un producto al mapa de productos
-         * 2) Se actualiza el valor del total
-         * 3) Se actualiza el valor de fecha de actualizacion
-         */
-
     }
 
     @Override
-    public void deleteProductFromShoppingCart(ProductId id) {
-        /* 1) Se elimina un producto del mapa de productos
-         * 2) Se actualiza el valor del total
-         * 3) Se actualiza el valor de fecha de actualizacion
-         */
+    public void removeProductFromShoppingCart(ProductId id) {
+        /* En este nivel, eliminar un producto del carrito de compra solo implica limpiar el campo de shopping cart id del producto indicado*/
+        String query = "UPDATE product SET shopping_cart_id = NULL WHERE product_id = ?";
+        jdbcTemplate.update(query,
+                            id.toString());
     }
 
     @Override
-    public void increaseQuantity() {
+    public void increaseProductQuantity() {
         /* 1) Se busca el producto al cual se le incrementara el valor de cantidad
          * 2) Se actualiza el valor de cantidad de producto encontrado
          * 3) Se actualiza el valor de precio del producto encontrado
@@ -53,7 +49,7 @@ public class SpringJdbcShoppingCartRepository implements ShoppingCartRepository{
     }
 
     @Override
-    public void decreaseQuantity() {
+    public void decreaseProductQuantity() {
         /* 1) Se busca el producto al cual se le restara el valor de cantidad
         *  2) Se actualiza el valor de cantidad del producto encontrado
         *  3) Se actualiza el valor de precio del producto encontrado

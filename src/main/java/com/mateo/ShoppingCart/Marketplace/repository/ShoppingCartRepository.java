@@ -4,9 +4,9 @@ import com.mateo.ShoppingCart.Marketplace.domain.*;
 
 public interface ShoppingCartRepository {
 
-    void addProductToShoppingCart(ProductId productId, ClientId id);
+    void addProductToShoppingCart(ProductId productId, ClientId shoppingCartId);
 
-    void deleteProductFromShoppingCart(ProductId id);
+    void removeProductFromShoppingCart(ProductId id);
 
     void increaseQuantity();
 
