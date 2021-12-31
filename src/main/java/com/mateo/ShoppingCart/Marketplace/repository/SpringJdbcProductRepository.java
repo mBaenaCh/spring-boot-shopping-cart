@@ -63,12 +63,17 @@ public class SpringJdbcProductRepository implements ProductRepository{
 
     @Override
     public void createProduct(Product product) {
-        String query = "INSERT INTO product VALUES(?, ?, ?, ?, ?)";
+        String query = "INSERT INTO product(product_id, name, description, price, quantity) VALUES(?, ?, ?, ?, ?)";
         /*Puedo crear un elemento en la tabla al mapear, como parametros de la consulta, las propiedades que puede retornar mi objeto
         *
         * PENDIENTE: update vs query (uso de rowmapper)*/
-        jdbcTemplate.update(query, product.getProductId(), product.getName(), product.getDescription(), product.getPrice(), product.getQuantity());
-
+        jdbcTemplate.update(query, ps -> {
+                            ps.setString(1, product.getProductId().toString());
+                            ps.setString(2, product.getName().toString());
+                            ps.setString(3, product.getDescription().toString());
+                            ps.setBigDecimal(4, product.getPrice().getValue());
+                            ps.setInt(5, product.getQuantity().asInteger());
+        });
     }
 
     @Override
