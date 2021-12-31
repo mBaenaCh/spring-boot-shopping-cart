@@ -1,14 +1,10 @@
 package com.mateo.ShoppingCart.Marketplace.repository;
 
-import com.mateo.ShoppingCart.Marketplace.domain.Product;
-import com.mateo.ShoppingCart.Marketplace.domain.ProductId;
-import com.mateo.ShoppingCart.Marketplace.domain.ProductQuantity;
-import com.mateo.ShoppingCart.Marketplace.domain.ShoppingCart;
+import com.mateo.ShoppingCart.Marketplace.domain.*;
 
 public interface ShoppingCartRepository {
-    void createShoppingCart(ShoppingCart shoppingCart);
 
-    void addProductToShoppingCart(Product product);
+    void addProductToShoppingCart(ProductId productId, ClientId id);
 
     void deleteProductFromShoppingCart(ProductId id);
 

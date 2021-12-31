@@ -18,23 +18,20 @@ public class SpringJdbcShoppingCartRepository implements ShoppingCartRepository{
     }
 
     /*Usando JDBC debemos realizar la consulta que deseamos para */
-    @Override
-    public void createShoppingCart(ShoppingCart shoppingCart) {
-        /* 1) Un shopping cart creado desde 0 tiene que recibir clientId, createdAt, updatedAt, products, total = 0
-        *  2) Puede iniciar con 0 productos
-        *  3) Fecha de creacion es inicial
-        *  4) Fecha de actualizacion es inicial
-        *  5) Tiene un total value de 0
-        *
-        * */
-    }
 
     @Override
-    public void addProductToShoppingCart(Product product) {
+    public void addProductToShoppingCart(ProductId productId, ClientId id) {
+
+        String query = "UPDATE product SET shopping_cart_id = ? WHERE product_id = ?";
+
+        jdbcTemplate.update(query,
+                            id.toString(),
+                            productId.toString());
         /* 1) Se añade un producto al mapa de productos
          * 2) Se actualiza el valor del total
          * 3) Se actualiza el valor de fecha de actualizacion
          */
+
     }
 
     @Override
