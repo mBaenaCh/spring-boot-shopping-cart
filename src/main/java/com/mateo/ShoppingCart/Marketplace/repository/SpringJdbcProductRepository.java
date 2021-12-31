@@ -79,7 +79,13 @@ public class SpringJdbcProductRepository implements ProductRepository{
     @Override
     public void updateProductById(ProductId id, Product product) {
         String query = "UPDATE product SET product_id = ?, name = ?, description = ?, price = ?, quantity = ? WHERE product_id = ?";
-        jdbcTemplate.update(query, id.toString(), product.getName().toString(), product.getDescription().toString(), product.getPrice().toString(), product.getQuantity().toString(), id.toString());
+        jdbcTemplate.update(query,
+                            id.toString(),
+                            product.getName().toString(),
+                            product.getDescription().toString(),
+                            product.getPrice().getValue(),
+                            product.getQuantity().asInteger(),
+                            id.toString());
     }
 
     @Override
