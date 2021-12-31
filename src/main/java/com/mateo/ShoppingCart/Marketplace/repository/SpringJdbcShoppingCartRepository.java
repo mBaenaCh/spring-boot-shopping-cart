@@ -1,13 +1,7 @@
 package com.mateo.ShoppingCart.Marketplace.repository;
 
 import com.mateo.ShoppingCart.Marketplace.domain.*;
-import org.simpleflatmapper.jdbc.JdbcMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.RowMapper;
-
-import java.time.LocalDate;
-import java.util.List;
 
 public class SpringJdbcShoppingCartRepository implements ShoppingCartRepository{
 
