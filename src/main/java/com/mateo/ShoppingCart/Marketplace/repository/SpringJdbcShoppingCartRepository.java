@@ -89,14 +89,14 @@ public class SpringJdbcShoppingCartRepository implements ShoppingCartRepository 
 
     @Override
     public Product getProductById(ProductId id) {
-        String query = "Select * FROM product WHERE product_id = ?";
+        String query = "SELECT * FROM product WHERE product_id = ?";
         return jdbcTemplate.queryForObject(query, productRowMapper, id.toString());
     }
 
     @Override
     public ShoppingCart getShoppingCartById(ClientId id) {
-
-        return null;
+        String query = "SELECT * FROM shopping_cart WHERE client_id = ?";
+        return jdbcTemplate.queryForObject(query, shoppingCartRowMapper, id.toString());
     }
 
     @Override
