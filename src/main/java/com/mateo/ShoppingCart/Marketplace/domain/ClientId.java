@@ -20,4 +20,9 @@ public record ClientId(UUID value) {
     public static ClientId generateUUIDFromString(String value){
         return new ClientId(UUID.fromString(value));
     }
+
+    @Override
+    public String toString() {
+        return this.value.toString();
+    }
 }
