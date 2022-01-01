@@ -74,12 +74,11 @@ public class ShoppingCartServices {
         //Calculamos el nuevo valor total
         updatedShoppingCart.setTotal(shoppingCart.calculateTotalPrice(updatedShoppingCart.getProducts()));
 
-        //Modificamos el producto en el repositorio
-        repository.addProductToShoppingCart(product.getProductId(), shoppingCart.getClientId());
+        //Modificamos el producto y shopping cart en el repositorio
+        repository.addProductToShoppingCart(product.getProductId(), updatedShoppingCart.getClientId());
+        repository.updateShoppingCartById(updatedShoppingCart.getClientId(), updatedShoppingCart.getUpdatedAt(), updatedShoppingCart.getTotal());
 
-        ShoppingCart finalShoppingCart = repository.getShoppingCartById(updatedShoppingCart.getClientId());
-
-        return finalShoppingCart;
+        return updatedShoppingCart;
     }
 
     public ShoppingCart removeProductFromTheShoppingCart(ProductId productId, ClientId clientId){
