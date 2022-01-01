@@ -5,7 +5,7 @@ import com.mateo.ShoppingCart.Marketplace.model.CreateProductInput;
 import com.mateo.ShoppingCart.Marketplace.model.CreateProductOutput;
 import com.mateo.ShoppingCart.Marketplace.model.UpdateProductInput;
 import com.mateo.ShoppingCart.Marketplace.model.UpdateProductOutput;
-import com.mateo.ShoppingCart.Marketplace.services.ProductServices;
+import com.mateo.ShoppingCart.Marketplace.services.ShoppingCartServices;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -20,16 +20,16 @@ import java.util.List;
 
 /* Modelamos toda la funcionalidad alrededor de una misma ruta pero bajo distintos metodos HTTP
  */
-@RequestMapping(value="/products")
-public class ProductsController {
+@RequestMapping(value="/api/shopping-cart")
+public class ShoppingCartController {
 
-    private ProductServices productService;
+    private ShoppingCartServices productService;
 
-    public ProductsController (ProductServices productServices){
-        this.productService = productServices;
+    public ShoppingCartController(ShoppingCartServices shoppingCartServices){
+        this.productService = shoppingCartServices;
     }
 
-    @PostMapping
+    @PostMapping(value="/products")
     /* La anotacion RequestBody nos permite recibir un JSON que sera convertido al formato especificado
      * en el parametro de entrada */
     public CreateProductOutput createProduct(
@@ -50,13 +50,13 @@ public class ProductsController {
         return new CreateProductOutput(createdProduct);
     }
 
-    @GetMapping
+    @GetMapping("/products")
     public List<Product> getAllProducts(){
         return productService.getAllProducts();
     }
 
     //Añadimos a la ruta un parametro de Id que se espera recibir para esta consulta
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/products/{id}")
     //La anotacion PathVariable nos permite manejar ese parametro que es enviado con la ruta
     public Product getProductById(
             @PathVariable("id") String id){
@@ -64,7 +64,7 @@ public class ProductsController {
         return productService.getProductById(productId);
     }
 
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "/products/{id}")
     public UpdateProductOutput updateProductById(
             @PathVariable("id") String id,
             @RequestBody UpdateProductInput input){
@@ -81,10 +81,34 @@ public class ProductsController {
         return new UpdateProductOutput(updatedProduct);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/products/{id}")
     public void deleteProductById(
             @PathVariable("id") String id){
         final ProductId productId = ProductId.generateUUIDFromString(id);
         productService.deleteProductById(productId);
+    }
+
+    @PutMapping(value = "/add-product/{id}")
+    public void addProductToShoppingCart(
+            @PathVariable("id") String id){
+
+    }
+
+    @PutMapping(value = "/remove-product/{id}")
+    public void removeProductFromShoppingCart(
+            @PathVariable("id") String id){
+
+    }
+
+    @PutMapping(value = "/increase-quantity/{id}")
+    public void increaseProductQuantity(
+            @PathVariable("id") String id){
+
+    }
+
+    @PutMapping(value = "/decrease-quantity/{id}")
+    public void decreaseProductQuantity(
+            @PathVariable("id") String id){
+
     }
 }
