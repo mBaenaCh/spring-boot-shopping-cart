@@ -1,15 +1,16 @@
 package com.mateo.ShoppingCart.Marketplace.controllers;
 
 import com.mateo.ShoppingCart.Marketplace.domain.*;
-import com.mateo.ShoppingCart.Marketplace.model.CreateProductInput;
-import com.mateo.ShoppingCart.Marketplace.model.CreateProductOutput;
-import com.mateo.ShoppingCart.Marketplace.model.UpdateProductInput;
-import com.mateo.ShoppingCart.Marketplace.model.UpdateProductOutput;
+import com.mateo.ShoppingCart.Marketplace.model.*;
 import com.mateo.ShoppingCart.Marketplace.services.ShoppingCartServices;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /* Con nuestro controller definiremos las funcionalidades que actuaran sobre nuestro modelo del dominio
  *
@@ -23,10 +24,10 @@ import java.util.List;
 @RequestMapping(value="/api/shopping-cart")
 public class ShoppingCartController {
 
-    private ShoppingCartServices productService;
+    private ShoppingCartServices shoppingCartServices;
 
     public ShoppingCartController(ShoppingCartServices shoppingCartServices){
-        this.productService = shoppingCartServices;
+        this.shoppingCartServices = shoppingCartServices;
     }
 
     @PostMapping(value="/products")
@@ -45,14 +46,14 @@ public class ShoppingCartController {
 
         /* Creamos una instancia basada en el modelo del dominio para su gestion en las capas subyacentes*/
         Product product = new Product(id, productName, productDescription, price, productQuantity);
-        Product createdProduct = productService.createProduct(product);
+        Product createdProduct = shoppingCartServices.createProduct(product);
 
         return new CreateProductOutput(createdProduct);
     }
 
     @GetMapping("/products")
     public List<Product> getAllProducts(){
-        return productService.getAllProducts();
+        return shoppingCartServices.getAllProducts();
     }
 
     //Añadimos a la ruta un parametro de Id que se espera recibir para esta consulta
@@ -61,7 +62,7 @@ public class ShoppingCartController {
     public Product getProductById(
             @PathVariable("id") String id){
         final ProductId productId = ProductId.generateUUIDFromString(id);
-        return productService.getProductById(productId);
+        return shoppingCartServices.getProductById(productId);
     }
 
     @PutMapping(value = "/products/{id}")
@@ -76,16 +77,29 @@ public class ShoppingCartController {
                 new Money(new BigDecimal(input.getPrice().floatValue()), Badge.USD),
                 new ProductQuantity(input.getQuantity())
         );
-        final Product updatedProduct = productService.updateProductById(productId, newProduct);
+        final Product updatedProduct = shoppingCartServices.updateProductById(productId, newProduct);
 
         return new UpdateProductOutput(updatedProduct);
+    }
+
+    @PostMapping
+    public ShoppingCartOutput createShoppingCart(){
+        ClientId clientId = new ClientId(UUID.randomUUID());
+        Instant createdAt = Instant.now();
+        Instant updatedAt = Instant.now();
+        Map<UUID, Product> products = new HashMap<>();
+
+        ShoppingCart shoppingCart = new ShoppingCart(clientId, createdAt, updatedAt, products);
+        shoppingCart.setTotal(new Money(new BigDecimal(0), Badge.USD));
+        ShoppingCart createdShoppingCart = shoppingCartServices.createShoppingCart(shoppingCart);
+        return new ShoppingCartOutput(createdShoppingCart);
     }
 
     @DeleteMapping(value = "/products/{id}")
     public void deleteProductById(
             @PathVariable("id") String id){
         final ProductId productId = ProductId.generateUUIDFromString(id);
-        productService.deleteProductById(productId);
+        shoppingCartServices.deleteProductById(productId);
     }
 
     @PutMapping(value = "/add-product/{id}")

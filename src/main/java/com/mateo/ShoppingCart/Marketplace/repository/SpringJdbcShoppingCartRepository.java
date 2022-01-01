@@ -5,7 +5,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 @Component
 public class SpringJdbcShoppingCartRepository implements ShoppingCartRepository {
@@ -18,6 +22,7 @@ public class SpringJdbcShoppingCartRepository implements ShoppingCartRepository 
     * */
 
     private final JdbcTemplate jdbcTemplate;
+    public static final Calendar timezoneUTC = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 
     public SpringJdbcShoppingCartRepository(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
@@ -65,11 +70,19 @@ public class SpringJdbcShoppingCartRepository implements ShoppingCartRepository 
     public void createShoppingCart(ShoppingCart shoppingCart) {
         String query = "INSERT INTO shopping_cart(client_id, created_at, updated_at, total) VALUES(?, ?, ?, ?)";
 
-        jdbcTemplate.update(query,
-                            shoppingCart.getClientId().toString(),
-                            shoppingCart.getCreatedAt(),
-                            shoppingCart.getUpdatedAt(),
-                            shoppingCart.getTotal());
+        Instant createdAt = shoppingCart.getCreatedAt();
+        Instant updatedAt = shoppingCart.getUpdatedAt();
+
+        Timestamp tsCreatedAt = createdAt != null ? Timestamp.from(createdAt) : null;
+        Timestamp tsUpdatedAt = updatedAt != null ? Timestamp.from(updatedAt) : null;
+
+        jdbcTemplate.update(query, ps -> {
+                            ps.setString(1, shoppingCart.getClientId().toString());
+                            ps.setTimestamp(2, tsCreatedAt, timezoneUTC);
+                            ps.setTimestamp(3, tsUpdatedAt, timezoneUTC);
+                            ps.setBigDecimal(4, shoppingCart.getTotal().getValue());
+        });
+
     }
 
     @Override

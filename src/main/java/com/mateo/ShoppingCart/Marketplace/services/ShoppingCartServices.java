@@ -42,6 +42,12 @@ public class ShoppingCartServices {
         repository.deleteProductById(id);
     }
 
+    public ShoppingCart createShoppingCart(ShoppingCart shoppingCart){
+        repository.createShoppingCart(shoppingCart);
+
+        return shoppingCart;
+    }
+
     public ShoppingCart addProductToShoppingCart(Product product, ShoppingCart shoppingCart){
 
         //Añadimos el producto nuevo a la lista de productos del shopping cart
