@@ -65,6 +65,13 @@ public class ShoppingCartController {
         return shoppingCartServices.getProductById(productId);
     }
 
+    @GetMapping("/{id}")
+    public ShoppingCart getShoppingCartById(
+            @PathVariable("id") String id){
+        final ClientId clientId = ClientId.generateUUIDFromString(id);
+        return shoppingCartServices.getShoppingCartById(clientId);
+    }
+
     @PutMapping(value = "/products/{id}")
     public UpdateProductOutput updateProductById(
             @PathVariable("id") String id,

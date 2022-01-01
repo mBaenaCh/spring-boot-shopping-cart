@@ -58,12 +58,14 @@ public class SpringJdbcShoppingCartRepository implements ShoppingCartRepository 
         Instant createdAt = tsCreatedAt != null ? tsCreatedAt.toInstant() : null;
         Instant updatedAt = tsUpdatedAt != null ? tsUpdatedAt.toInstant() : null;
         Map<UUID, Product> products = getAllProductsFromShoppingCart();
-        return new ShoppingCart(
-                        id,
-                        createdAt,
-                        updatedAt,
-                        products
-        );
+
+        ShoppingCart foundShoppingCart = new ShoppingCart(id,
+                createdAt,
+                updatedAt,
+                products);
+
+        foundShoppingCart.setTotal(foundShoppingCart.calculateTotalPrice(products));
+        return foundShoppingCart;
     };
 
     public Map<UUID,Product> getAllProductsFromShoppingCart(){
@@ -75,9 +77,7 @@ public class SpringJdbcShoppingCartRepository implements ShoppingCartRepository 
         for (Product product : products) {
             mapOfProducts.put(product.getProductId().value(), product);
         }
-
         return mapOfProducts;
-
     }
 
     @Override
