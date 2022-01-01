@@ -80,10 +80,11 @@ public class ShoppingCartServices {
         return updatedShoppingCart;
     }
 
-    public ShoppingCart removeProductFromTheShoppingCart(ShoppingCart shoppingCart, ProductId id){
+    public ShoppingCart removeProductFromTheShoppingCart(ProductId productId, ClientId clientId){
+        ShoppingCart shoppingCart = repository.getShoppingCartById(clientId);
 
         //Se elimina un producto del mapa de productos
-        shoppingCart.getProducts().remove(id);
+        shoppingCart.getProducts().remove(productId);
 
         //Creamos la instancia actualizada a retornar
         ShoppingCart updatedShoppingCart = new ShoppingCart(shoppingCart.getClientId(),
@@ -97,7 +98,7 @@ public class ShoppingCartServices {
         //Actualizamos la fecha de modificacion
         updatedShoppingCart.setUpdatedAt(Instant.now());
 
-        repository.removeProductFromShoppingCart(id);
+        repository.removeProductFromShoppingCart(productId);
 
         return updatedShoppingCart;
     }
@@ -131,7 +132,7 @@ public class ShoppingCartServices {
 
         return updatedShoppingCart;
     }
-
+/*
     public ShoppingCart decreaseProductQuantity(ProductId id, ShoppingCart shoppingCart){
         ShoppingCart updatedShoppingCart = new ShoppingCart(shoppingCart.getClientId(),
                 shoppingCart.getCreatedAt(),
@@ -141,7 +142,7 @@ public class ShoppingCartServices {
         Product foundProduct = updatedShoppingCart.getProducts().get(id);
         //Validamos si el item a eliminar tiene solo 1 unidad
         if( foundProduct.getQuantity().asInteger() == 1 ){
-            return removeProductFromTheShoppingCart(updatedShoppingCart, id);
+            return removeProductFromTheShoppingCart(id, id);
         } else {
 
             //Disminuimos el valor de cantidad del objeto encontrado
@@ -164,5 +165,5 @@ public class ShoppingCartServices {
 
             return updatedShoppingCart;
         }
-    }
+    }*/
 }
