@@ -77,7 +77,9 @@ public class ShoppingCartServices {
         //Modificamos el producto en el repositorio
         repository.addProductToShoppingCart(product.getProductId(), shoppingCart.getClientId());
 
-        return updatedShoppingCart;
+        ShoppingCart finalShoppingCart = repository.getShoppingCartById(updatedShoppingCart.getClientId());
+
+        return finalShoppingCart;
     }
 
     public ShoppingCart removeProductFromTheShoppingCart(ProductId productId, ClientId clientId){
@@ -100,7 +102,9 @@ public class ShoppingCartServices {
 
         repository.removeProductFromShoppingCart(productId);
 
-        return updatedShoppingCart;
+        ShoppingCart finalShoppingCart = repository.getShoppingCartById(updatedShoppingCart.getClientId());
+
+        return finalShoppingCart;
     }
 
     public ShoppingCart increaseProductQuantity(ProductId id, ShoppingCart shoppingCart){
