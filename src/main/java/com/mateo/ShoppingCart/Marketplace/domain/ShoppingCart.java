@@ -12,15 +12,12 @@ public class ShoppingCart {
     private static final BigDecimal DISCOUNT_PERCENTAGE = BigDecimal.valueOf(0.5);
 
     private final ClientId clientId;
-
     /* Usamos Instant para obtener una estampa de tiempo calculada por Java y no
        por el sistema (A diferencia de LocalDate)  */
     private final Instant createdAt;
     private Instant updatedAt;
-
     /* Definimos una estructura de datos basada en los identificadores de objetos y el objeto asociado al identificador*/
     private Map<UUID,Product> products;
-
     /* Definimos una clase para gestionar los valores monetarios en funcion de la cantidad y la divisa*/
     private Money total;
 

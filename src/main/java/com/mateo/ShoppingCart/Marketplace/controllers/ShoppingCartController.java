@@ -84,7 +84,7 @@ public class ShoppingCartController {
 
     @PostMapping
     public ShoppingCartOutput createShoppingCart(){
-        ClientId clientId = new ClientId(UUID.randomUUID());
+        ClientId clientId = ClientId.generateUUID();
         Instant createdAt = Instant.now();
         Instant updatedAt = Instant.now();
         Map<UUID, Product> products = new HashMap<>();
