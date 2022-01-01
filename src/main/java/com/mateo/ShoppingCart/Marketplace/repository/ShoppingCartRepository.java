@@ -2,6 +2,7 @@ package com.mateo.ShoppingCart.Marketplace.repository;
 
 import com.mateo.ShoppingCart.Marketplace.domain.*;
 
+import java.time.Instant;
 import java.util.List;
 
 public interface ShoppingCartRepository {
@@ -10,6 +11,8 @@ public interface ShoppingCartRepository {
     Product getProductById(ProductId id);
 
     ShoppingCart getShoppingCartById(ClientId id);
+
+    void updateShoppingCartById(ClientId id, Instant updatedAt, Money total);
 
     void createShoppingCart(ShoppingCart shoppingCart);
 

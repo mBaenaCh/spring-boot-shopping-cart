@@ -180,5 +180,15 @@ public class SpringJdbcShoppingCartRepository implements ShoppingCartRepository 
                 productId.toString());
     }
 
+    @Override
+    public void updateShoppingCartById(ClientId clientId, Instant updatedAt, Money total){
+        String query = "UPDATE shopping_cart SET updated_at = ?, total = ? WHERE client_id = ?";
+        Timestamp tsUpdatedAt = updatedAt != null ? Timestamp.from(updatedAt) : null;
+        jdbcTemplate.update(query, ps -> {
+                                    ps.setTimestamp(1, tsUpdatedAt, timezoneUTC);
+                                    ps.setBigDecimal(2, total.getValue());
+                                    ps.setString(3, clientId.toString());
+                });
+    }
 
 }
