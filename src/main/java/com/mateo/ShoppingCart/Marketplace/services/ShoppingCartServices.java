@@ -85,7 +85,10 @@ public class ShoppingCartServices {
         ShoppingCart shoppingCart = repository.getShoppingCartById(clientId);
 
         //Se elimina un producto del mapa de productos
-        shoppingCart.getProducts().remove(productId);
+        shoppingCart.deleteProduct(productId.value());
+
+        //Actualizamos la fecha de modificacion
+        shoppingCart.setUpdatedAt(Instant.now());
 
         //Creamos la instancia actualizada a retornar
         ShoppingCart updatedShoppingCart = new ShoppingCart(shoppingCart.getClientId(),
@@ -96,14 +99,10 @@ public class ShoppingCartServices {
         //Actualizamos el valor total del carrito
         updatedShoppingCart.setTotal(shoppingCart.calculateTotalPrice(updatedShoppingCart.getProducts()));
 
-        //Actualizamos la fecha de modificacion
-        updatedShoppingCart.setUpdatedAt(Instant.now());
-
         repository.removeProductFromShoppingCart(productId);
+        repository.updateShoppingCartById(updatedShoppingCart.getClientId(), updatedShoppingCart.getUpdatedAt(), updatedShoppingCart.getTotal());
 
-        ShoppingCart finalShoppingCart = repository.getShoppingCartById(updatedShoppingCart.getClientId());
-
-        return finalShoppingCart;
+        return updatedShoppingCart;
     }
 
     public ShoppingCart increaseProductQuantity(ProductId id, ShoppingCart shoppingCart){
