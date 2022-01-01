@@ -118,7 +118,6 @@ public class SpringJdbcShoppingCartRepository implements ShoppingCartRepository 
 
     }
 
-
     @Override
     public void createProduct(Product product) {
         String query = "INSERT INTO product(product_id, name, description, price, quantity) VALUES(?, ?, ?, ?, ?)";
