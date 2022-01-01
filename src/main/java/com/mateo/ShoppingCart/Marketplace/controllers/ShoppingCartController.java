@@ -121,10 +121,15 @@ public class ShoppingCartController {
         return updatedShoppingCart;
     }
 
-    @PutMapping(value = "/remove-product/{id}")
-    public void removeProductFromShoppingCart(
-            @PathVariable("id") String id){
+    @PutMapping(value = "/{scId}/remove-product/{pId}")
+    public ShoppingCart removeProductFromShoppingCart(
+            @PathVariable("scId") String scId,
+            @PathVariable("pId") String pId){
+        final ProductId productId = ProductId.generateUUIDFromString(pId);
+        final ClientId clientId = ClientId.generateUUIDFromString(scId);
 
+        ShoppingCart updatedShoppingCart = shoppingCartServices.removeProductFromTheShoppingCart(productId, clientId);
+        return updatedShoppingCart;
     }
 
     @PutMapping(value = "/increase-quantity/{id}")
