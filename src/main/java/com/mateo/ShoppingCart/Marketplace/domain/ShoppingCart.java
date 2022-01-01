@@ -31,6 +31,8 @@ public class ShoppingCart {
             Boolean isValid = validateProductsList(products);
             if(!isValid){
                 throw new IllegalArgumentException("There can not be more than 1 Expensive product or more than 10 Normal products");
+            } else {
+
             }
         }
 

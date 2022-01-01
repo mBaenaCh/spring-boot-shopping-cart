@@ -105,67 +105,94 @@ public class ShoppingCartServices {
         return updatedShoppingCart;
     }
 
-    public ShoppingCart increaseProductQuantity(ProductId id, ShoppingCart shoppingCart){
+    public ShoppingCart increaseProductQuantity(ProductId productId, ClientId clientId){
 
-        ShoppingCart updatedShoppingCart = new ShoppingCart(shoppingCart.getClientId(),
-                shoppingCart.getCreatedAt(),
-                shoppingCart.getUpdatedAt(),
-                shoppingCart.getProducts());
+        ShoppingCart shoppingCart = repository.getShoppingCartById(clientId);
 
-        Product foundProduct = updatedShoppingCart.getProducts().get(id);
+        Product foundProduct = shoppingCart.getProducts().get(productId.value());
 
-        //Incrementamos la cantidad del producto de interes
-        foundProduct.getQuantity().incrementValue();
+        if (foundProduct == null){
 
-        //Actualizamos el valor del producto en funcion de la cantidad
-        foundProduct.setPriceByQuantity(foundProduct.getQuantity());
+            throw new NullPointerException("The product does not exists");
 
-        //Creamos un nuevo objeto money que sera usado en la operacion del repository
-        Money updatedPrice = new Money(foundProduct.getPrice().getValue(), Badge.USD);
-        repository.updateProductQuantity(foundProduct.getProductId(), updatedPrice, foundProduct.getQuantity());
-
-        //Actualizamos el valor del total del shopping cart
-        updatedShoppingCart.getProducts().remove(id);
-        updatedShoppingCart.addProduct(foundProduct);
-        updatedShoppingCart.calculateTotalPrice(updatedShoppingCart.getProducts());
-
-        //Actualizamos la fecha de ultima modificacion
-        updatedShoppingCart.setUpdatedAt(Instant.now());
-
-        return updatedShoppingCart;
-    }
-/*
-    public ShoppingCart decreaseProductQuantity(ProductId id, ShoppingCart shoppingCart){
-        ShoppingCart updatedShoppingCart = new ShoppingCart(shoppingCart.getClientId(),
-                shoppingCart.getCreatedAt(),
-                shoppingCart.getUpdatedAt(),
-                shoppingCart.getProducts());
-
-        Product foundProduct = updatedShoppingCart.getProducts().get(id);
-        //Validamos si el item a eliminar tiene solo 1 unidad
-        if( foundProduct.getQuantity().asInteger() == 1 ){
-            return removeProductFromTheShoppingCart(id, id);
         } else {
+            //Incrementamos la cantidad del producto de interes
+            foundProduct.getQuantity().incrementValue();
 
-            //Disminuimos el valor de cantidad del objeto encontrado
-            foundProduct.getQuantity().decreaseValue();
-
-            //Actualizamos el precio del producto en funcion de la cantidad
+            //Actualizamos el valor del producto en funcion de la cantidad
             foundProduct.setPriceByQuantity(foundProduct.getQuantity());
+
+            //Creamos un nuevo objeto money que sera usado en la operacion del repository
             Money updatedPrice = new Money(foundProduct.getPrice().getValue(), Badge.USD);
 
+            //Actualizamos el product en el repository
             repository.updateProductQuantity(foundProduct.getProductId(), updatedPrice, foundProduct.getQuantity());
 
-            //Actualizamos el producto dentro del shopping cart
-            updatedShoppingCart.getProducts().remove(id);
-            updatedShoppingCart.addProduct(foundProduct);
+            //Actualizamos el valor del total del shopping cart
+            shoppingCart.deleteProduct(productId.value());
+            shoppingCart.addProduct(foundProduct);
+            //shoppingCart.setTotal(shoppingCart.calculateTotalPrice(shoppingCart.getProducts()));
 
-            //Actualizamos el valor de total del shopping cart
-            updatedShoppingCart.calculateTotalPrice(updatedShoppingCart.getProducts());
+            //Actualizamos la fecha de ultima modificacion
+            shoppingCart.setUpdatedAt(Instant.now());
 
-            updatedShoppingCart.setUpdatedAt(Instant.now());
+            ShoppingCart updatedShoppingCart = new ShoppingCart(shoppingCart.getClientId(),
+                    shoppingCart.getCreatedAt(),
+                    shoppingCart.getUpdatedAt(),
+                    shoppingCart.getProducts());
 
+            updatedShoppingCart.setTotal(updatedShoppingCart.calculateTotalPrice(updatedShoppingCart.getProducts()));
+            //Actualizamos el shopping cart en el repository
+            repository.updateShoppingCartById(updatedShoppingCart.getClientId(), updatedShoppingCart.getUpdatedAt(), updatedShoppingCart.getTotal());
             return updatedShoppingCart;
         }
-    }*/
+    }
+
+    public ShoppingCart decreaseProductQuantity(ProductId productId, ClientId clientId){
+
+        ShoppingCart shoppingCart = repository.getShoppingCartById(clientId);
+
+        ShoppingCart updatedShoppingCart = new ShoppingCart(shoppingCart.getClientId(),
+                shoppingCart.getCreatedAt(),
+                shoppingCart.getUpdatedAt(),
+                shoppingCart.getProducts());
+
+        Product foundProduct = updatedShoppingCart.getProducts().get(productId.value());
+
+        if(foundProduct == null){
+            throw new NullPointerException("The product does not exists");
+        } else {
+            //Validamos si el item a eliminar tiene solo 1 unidad
+            if( foundProduct.getQuantity().asInteger() == 1 ){
+                return removeProductFromTheShoppingCart(productId, clientId);
+            } else {
+
+                //Disminuimos el valor de cantidad del objeto encontrado
+                foundProduct.getQuantity().decreaseValue();
+
+                //Actualizamos el precio del producto en funcion de la cantidad
+                foundProduct.setPriceByQuantity(foundProduct.getQuantity());
+                Money updatedPrice = new Money(foundProduct.getPrice().getValue(), Badge.USD);
+
+                repository.updateProductQuantity(foundProduct.getProductId(), updatedPrice, foundProduct.getQuantity());
+
+                //Actualizamos el producto dentro del shopping cart
+                updatedShoppingCart.deleteProduct(productId.value());
+                updatedShoppingCart.addProduct(foundProduct);
+
+                //Actualizamos el valor de total del shopping cart
+                updatedShoppingCart.setTotal(updatedShoppingCart.calculateTotalPrice(updatedShoppingCart.getProducts()));
+
+                //Actualizamos fecha de modificacion
+                updatedShoppingCart.setUpdatedAt(Instant.now());
+
+                //Actualizamos el shopping cart en el repository
+                repository.updateShoppingCartById(updatedShoppingCart.getClientId(), updatedShoppingCart.getUpdatedAt(), updatedShoppingCart.getTotal());
+
+                return updatedShoppingCart;
+            }
+        }
+
+
+    }
 }

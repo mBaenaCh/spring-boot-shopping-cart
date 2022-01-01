@@ -132,15 +132,27 @@ public class ShoppingCartController {
         return updatedShoppingCart;
     }
 
-    @PutMapping(value = "/increase-quantity/{id}")
-    public void increaseProductQuantity(
-            @PathVariable("id") String id){
+    @PutMapping(value = "/{scId}/increase-quantity/{pId}")
+    public ShoppingCart increaseProductQuantity(
+            @PathVariable("scId") String scId,
+            @PathVariable("pId") String pId){
 
+        final ProductId productId = ProductId.generateUUIDFromString(pId);
+        final ClientId clientId = ClientId.generateUUIDFromString(scId);
+
+        ShoppingCart updatedShoppingCart = shoppingCartServices.increaseProductQuantity(productId, clientId);
+        return updatedShoppingCart;
     }
 
-    @PutMapping(value = "/decrease-quantity/{id}")
-    public void decreaseProductQuantity(
-            @PathVariable("id") String id){
+    @PutMapping(value = "/{scId}/decrease-quantity/{pId}")
+    public ShoppingCart decreaseProductQuantity(
+            @PathVariable("scId") String scId,
+            @PathVariable("pId") String pId){
 
+        final ProductId productId = ProductId.generateUUIDFromString(pId);
+        final ClientId clientId = ClientId.generateUUIDFromString(scId);
+
+        ShoppingCart updatedShoppingCart = shoppingCartServices.decreaseProductQuantity(productId, clientId);
+        return updatedShoppingCart;
     }
 }
