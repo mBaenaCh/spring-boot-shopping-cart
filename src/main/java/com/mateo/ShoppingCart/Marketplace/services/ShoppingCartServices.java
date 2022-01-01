@@ -52,7 +52,11 @@ public class ShoppingCartServices {
         return shoppingCart;
     }
 
-    public ShoppingCart addProductToShoppingCart(Product product, ShoppingCart shoppingCart){
+    public ShoppingCart addProductToShoppingCart(ProductId productId, ClientId clientId){
+
+        //Obtenemos los objetos del product y shopping cart que deseamos utilizar
+        Product product = repository.getProductById(productId);
+        ShoppingCart shoppingCart = repository.getShoppingCartById(clientId);
 
         //Añadimos el producto nuevo a la lista de productos del shopping cart
         shoppingCart.addProduct(product);
