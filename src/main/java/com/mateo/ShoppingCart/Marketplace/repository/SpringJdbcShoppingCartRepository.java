@@ -57,8 +57,7 @@ public class SpringJdbcShoppingCartRepository implements ShoppingCartRepository 
         Timestamp tsUpdatedAt = resultSet.getTimestamp("updated_at", timezoneUTC);
         Instant createdAt = tsCreatedAt != null ? tsCreatedAt.toInstant() : null;
         Instant updatedAt = tsUpdatedAt != null ? tsUpdatedAt.toInstant() : null;
-        Money total = new Money(resultSet.getBigDecimal(resultSet.getInt("total")), Badge.USD);
-        Map<UUID, Product> products = new HashMap<>();
+        Map<UUID, Product> products = getAllProductsFromShoppingCart();
         return new ShoppingCart(
                         id,
                         createdAt,
@@ -67,9 +66,17 @@ public class SpringJdbcShoppingCartRepository implements ShoppingCartRepository 
         );
     };
 
-    public List<Product> getAllProductsFromShoppingCart(){
-        Map<UUID, Product> products;
+    public Map<UUID,Product> getAllProductsFromShoppingCart(){
         String query = "SELECT product_id, name, description, quantity, price FROM product INNER JOIN shopping_cart ON product.shopping_cart_id = shopping_cart.client_id";
+        List<Product> products = jdbcTemplate.query(query, productRowMapper);
+        Map<UUID, Product> mapOfProducts = new HashMap<>();
+
+        //Me quedo grande hacerlo con Stream y Map.uniqueIndex de Guava :(
+        for (Product product : products) {
+            mapOfProducts.put(product.getProductId().value(), product);
+        }
+
+        return mapOfProducts;
 
     }
 
@@ -89,7 +96,7 @@ public class SpringJdbcShoppingCartRepository implements ShoppingCartRepository 
     @Override
     public ShoppingCart getShoppingCartById(ClientId id) {
 
-        return ;
+        return null;
     }
 
     @Override
