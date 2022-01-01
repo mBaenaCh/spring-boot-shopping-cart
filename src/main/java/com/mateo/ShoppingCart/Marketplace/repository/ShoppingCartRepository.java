@@ -9,6 +9,8 @@ public interface ShoppingCartRepository {
 
     Product getProductById(ProductId id);
 
+    ShoppingCart getShoppingCartById(ClientId id);
+
     void createShoppingCart(ShoppingCart shoppingCart);
 
     void createProduct(Product product);

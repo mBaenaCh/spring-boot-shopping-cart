@@ -1,5 +1,7 @@
 package com.mateo.ShoppingCart.Marketplace.domain;
 
+import lombok.Getter;
+
 import java.util.Objects;
 import java.util.UUID;
 

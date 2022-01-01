@@ -27,6 +27,10 @@ public class ShoppingCartServices {
         return repository.getProductById(id);
     }
 
+    public ShoppingCart getShoppingCartById(ClientId id) {
+        return repository.getShoppingCartById(id);
+    }
+
     public Product createProduct(Product product){
         repository.createProduct(product);
         return product;
