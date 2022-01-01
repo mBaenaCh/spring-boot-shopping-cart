@@ -8,6 +8,7 @@ import com.mateo.ShoppingCart.Marketplace.domain.*;
 import com.mateo.ShoppingCart.Marketplace.repository.ShoppingCartRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
@@ -116,14 +117,15 @@ public class ShoppingCartServices {
             throw new NullPointerException("The product does not exists");
 
         } else {
+            //Obtenemos el valor unitario del producto antes de multiplicar por la cantidad
+            BigDecimal basePrice = foundProduct.getPrice().getValue().divide(new BigDecimal(foundProduct.getQuantity().asInteger()));
+
             //Incrementamos la cantidad del producto de interes
             foundProduct.getQuantity().incrementValue();
 
             //Actualizamos el valor del producto en funcion de la cantidad
-            foundProduct.setPriceByQuantity(foundProduct.getQuantity());
-
-            //Creamos un nuevo objeto money que sera usado en la operacion del repository
-            Money updatedPrice = new Money(foundProduct.getPrice().getValue(), Badge.USD);
+            Money updatedPrice = new Money(basePrice.multiply(new BigDecimal(foundProduct.getQuantity().asInteger())), Badge.USD);
+            foundProduct.setPrice(updatedPrice);
 
             //Actualizamos el product en el repository
             repository.updateProductQuantity(foundProduct.getProductId(), updatedPrice, foundProduct.getQuantity());
@@ -131,7 +133,6 @@ public class ShoppingCartServices {
             //Actualizamos el valor del total del shopping cart
             shoppingCart.deleteProduct(productId.value());
             shoppingCart.addProduct(foundProduct);
-            //shoppingCart.setTotal(shoppingCart.calculateTotalPrice(shoppingCart.getProducts()));
 
             //Actualizamos la fecha de ultima modificacion
             shoppingCart.setUpdatedAt(Instant.now());
@@ -166,13 +167,15 @@ public class ShoppingCartServices {
             if( foundProduct.getQuantity().asInteger() == 1 ){
                 return removeProductFromTheShoppingCart(productId, clientId);
             } else {
+                //Obtenemos el valor unitario del producto antes de multiplicar por la cantidad
+                BigDecimal basePrice = foundProduct.getPrice().getValue().divide(new BigDecimal(foundProduct.getQuantity().asInteger()));
 
                 //Disminuimos el valor de cantidad del objeto encontrado
                 foundProduct.getQuantity().decreaseValue();
 
-                //Actualizamos el precio del producto en funcion de la cantidad
-                foundProduct.setPriceByQuantity(foundProduct.getQuantity());
-                Money updatedPrice = new Money(foundProduct.getPrice().getValue(), Badge.USD);
+                //Actualizamos el valor del producto en funcion de la cantidad
+                Money updatedPrice = new Money(basePrice.multiply(new BigDecimal(foundProduct.getQuantity().asInteger())), Badge.USD);
+                foundProduct.setPrice(updatedPrice);
 
                 repository.updateProductQuantity(foundProduct.getProductId(), updatedPrice, foundProduct.getQuantity());
 
@@ -192,7 +195,5 @@ public class ShoppingCartServices {
                 return updatedShoppingCart;
             }
         }
-
-
     }
 }

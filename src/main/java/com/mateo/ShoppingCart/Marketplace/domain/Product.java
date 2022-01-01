@@ -1,11 +1,13 @@
 package com.mateo.ShoppingCart.Marketplace.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Getter
+@Setter
 public class Product {
 
     private final ProductId productId; //Identificador unico de un objeto
