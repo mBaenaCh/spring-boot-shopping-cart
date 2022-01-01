@@ -7,9 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.Calendar;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 @Component
 public class SpringJdbcShoppingCartRepository implements ShoppingCartRepository {
@@ -38,7 +36,7 @@ public class SpringJdbcShoppingCartRepository implements ShoppingCartRepository 
     *  PENDIENTE: Crear un ProductMapper que implemente de RowMapper<Product>
     * */
 
-    private final RowMapper<Product> rowMapper = (resultSet, rowNum) -> {
+    private final RowMapper<Product> productRowMapper = (resultSet, rowNum) -> {
         ProductId id = ProductId.generateUUIDFromString(resultSet.getString("product_id"));
         ProductName name = new ProductName(resultSet.getString("name"));
         ProductDescription description = new ProductDescription(resultSet.getString("description"));
@@ -53,17 +51,45 @@ public class SpringJdbcShoppingCartRepository implements ShoppingCartRepository 
         );
     };
 
+    private final RowMapper<ShoppingCart> shoppingCartRowMapper = (resultSet, rowNum) -> {
+        ClientId id = ClientId.generateUUIDFromString(resultSet.getString("client_id"));
+        Timestamp tsCreatedAt = resultSet.getTimestamp("created_at",timezoneUTC);
+        Timestamp tsUpdatedAt = resultSet.getTimestamp("updated_at", timezoneUTC);
+        Instant createdAt = tsCreatedAt != null ? tsCreatedAt.toInstant() : null;
+        Instant updatedAt = tsUpdatedAt != null ? tsUpdatedAt.toInstant() : null;
+        Money total = new Money(resultSet.getBigDecimal(resultSet.getInt("total")), Badge.USD);
+        Map<UUID, Product> products = new HashMap<>();
+        return new ShoppingCart(
+                        id,
+                        createdAt,
+                        updatedAt,
+                        products
+        );
+    };
+
+    public List<Product> getAllProductsFromShoppingCart(){
+        Map<UUID, Product> products;
+        String query = "SELECT product_id, name, description, quantity, price FROM product INNER JOIN shopping_cart ON product.shopping_cart_id = shopping_cart.client_id";
+
+    }
+
     @Override
     public List<Product> getAllProducts() {
         String query = "SELECT * FROM product";
 
-        return jdbcTemplate.query(query, rowMapper);
+        return jdbcTemplate.query(query, productRowMapper);
     }
 
     @Override
     public Product getProductById(ProductId id) {
         String query = "Select * FROM product WHERE product_id = ?";
-        return jdbcTemplate.queryForObject(query, rowMapper, id.toString());
+        return jdbcTemplate.queryForObject(query, productRowMapper, id.toString());
+    }
+
+    @Override
+    public ShoppingCart getShoppingCartById(ClientId id) {
+
+        return ;
     }
 
     @Override
@@ -84,6 +110,7 @@ public class SpringJdbcShoppingCartRepository implements ShoppingCartRepository 
         });
 
     }
+
 
     @Override
     public void createProduct(Product product) {
