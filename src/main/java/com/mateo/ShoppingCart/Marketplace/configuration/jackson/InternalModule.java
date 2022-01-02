@@ -26,5 +26,8 @@ public class InternalModule extends SimpleModule {
         addSerializer(ProductQuantity.class, new ProductQuantityParser.Serializer());
         addDeserializer(ProductQuantity.class, new ProductQuantityParser.Deserializer());
 
+        addSerializer(Money.class, new MoneyParser.Serializer());
+        addDeserializer(Money.class, new MoneyParser.Deserializer());
+
     }
 }
