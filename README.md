@@ -45,4 +45,4 @@ In summary, the services that we can found are the following:
 | PUT   | /api/shopping-cart/:scId/add-product/:pId        | Add product by its id (pId) to shopping cart by its id (scId)     |
 | PUT   | /api/shopping-cart/:scId/remove-product/:pId        | Remove product by its id (pId) from shopping cart by its id (scId)      |
 | PUT   | /api/shopping-cart/:scId/increase-quantity/:pId        | Increase quantity of a product by its Id (pId) in a shopping cart      |
-| PUT   | /api/shopping-cart/:scId/decrease-quantity/:id        | Decrease quantity of a product by its Id (pId) in a shopping cart      |
+| PUT   | /api/shopping-cart/:scId/decrease-quantity/:pId        | Decrease quantity of a product by its Id (pId) in a shopping cart      |
