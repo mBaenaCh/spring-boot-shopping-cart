@@ -16,15 +16,15 @@ import java.util.List;
 public class ShoppingCartServices {
     private ShoppingCartRepository repository;
 
-    public ShoppingCartServices(ShoppingCartRepository repository){
+    public ShoppingCartServices(ShoppingCartRepository repository) {
         this.repository = repository;
     }
 
-    public List<Product> getAllProducts(){
+    public List<Product> getAllProducts() {
         return repository.getAllProducts();
     }
 
-    public Product getProductById(ProductId id){
+    public Product getProductById(ProductId id) {
         return repository.getProductById(id);
     }
 
@@ -32,35 +32,36 @@ public class ShoppingCartServices {
         return repository.getShoppingCartById(id);
     }
 
-    public Product createProduct(Product product){
+    public Product createProduct(Product product) {
         repository.createProduct(product);
         return product;
     }
 
-    public Product updateProductById(ProductId id, Product product){
+    public Product updateProductById(ProductId id, Product product) {
         repository.updateProductById(id, product);
 
         return product;
     }
 
-    public void deleteProductById(ProductId id){
+    public void deleteProductById(ProductId id) {
         repository.deleteProductById(id);
     }
 
-    public ShoppingCart createShoppingCart(ShoppingCart shoppingCart){
+    public ShoppingCart createShoppingCart(ShoppingCart shoppingCart) {
         repository.createShoppingCart(shoppingCart);
 
         return shoppingCart;
     }
 
-    public ShoppingCart addProductToShoppingCart(ProductId productId, ClientId clientId){
+    public ShoppingCart addProductToShoppingCart(ProductId productId, ClientId clientId) {
 
         //Obtenemos los objetos del product y shopping cart que deseamos utilizar
-        Product product = repository.getProductById(productId);
+        Product productToAdd = repository.getProductById(productId);
         ShoppingCart shoppingCart = repository.getShoppingCartById(clientId);
 
+
         //Añadimos el producto nuevo a la lista de productos del shopping cart
-        shoppingCart.addProduct(product);
+        shoppingCart.addProduct(productToAdd);
 
         //Actualizamos la fecha de modificacion
         shoppingCart.setUpdatedAt(Instant.now());
@@ -76,13 +77,13 @@ public class ShoppingCartServices {
         updatedShoppingCart.setTotal(shoppingCart.calculateTotalPrice(updatedShoppingCart.getProducts()));
 
         //Modificamos el producto y shopping cart en el repositorio
-        repository.addProductToShoppingCart(product.getProductId(), updatedShoppingCart.getClientId());
+        repository.addProductToShoppingCart(productToAdd.getProductId(), updatedShoppingCart.getClientId());
         repository.updateShoppingCartById(updatedShoppingCart.getClientId(), updatedShoppingCart.getUpdatedAt(), updatedShoppingCart.getTotal());
 
         return updatedShoppingCart;
     }
 
-    public ShoppingCart removeProductFromTheShoppingCart(ProductId productId, ClientId clientId){
+    public ShoppingCart removeProductFromTheShoppingCart(ProductId productId, ClientId clientId) {
         ShoppingCart shoppingCart = repository.getShoppingCartById(clientId);
 
         //Se elimina un producto del mapa de productos
@@ -106,13 +107,13 @@ public class ShoppingCartServices {
         return updatedShoppingCart;
     }
 
-    public ShoppingCart increaseProductQuantity(ProductId productId, ClientId clientId){
+    public ShoppingCart increaseProductQuantity(ProductId productId, ClientId clientId) {
 
         ShoppingCart shoppingCart = repository.getShoppingCartById(clientId);
 
         Product foundProduct = shoppingCart.getProducts().get(productId.value());
 
-        if (foundProduct == null){
+        if (foundProduct == null) {
 
             throw new NullPointerException("The product does not exists");
 
@@ -149,7 +150,7 @@ public class ShoppingCartServices {
         }
     }
 
-    public ShoppingCart decreaseProductQuantity(ProductId productId, ClientId clientId){
+    public ShoppingCart decreaseProductQuantity(ProductId productId, ClientId clientId) {
 
         ShoppingCart shoppingCart = repository.getShoppingCartById(clientId);
 
@@ -160,11 +161,11 @@ public class ShoppingCartServices {
 
         Product foundProduct = updatedShoppingCart.getProducts().get(productId.value());
 
-        if(foundProduct == null){
+        if (foundProduct == null) {
             throw new NullPointerException("The product does not exists");
         } else {
             //Validamos si el item a eliminar tiene solo 1 unidad
-            if( foundProduct.getQuantity().asInteger() == 1 ){
+            if (foundProduct.getQuantity().asInteger() == 1) {
                 return removeProductFromTheShoppingCart(productId, clientId);
             } else {
                 //Obtenemos el valor unitario del producto antes de multiplicar por la cantidad
