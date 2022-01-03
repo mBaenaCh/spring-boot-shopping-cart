@@ -1,0 +1,290 @@
+{
+	"info": {
+		"_postman_id": "0e75a433-d144-406b-871d-c15852b2222a",
+		"name": "Springboot shopping cart backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CRUD Products",
+			"item": [
+				{
+					"name": "Get all products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/shopping-cart/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get product by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/shopping-cart/products/faedfd7f-c26c-4b44-bcc8-5a44fd994ebf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"products",
+								"faedfd7f-c26c-4b44-bcc8-5a44fd994ebf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Aguapanela\",\r\n    \"description\": \"El coltejer lleno de Aguapanela\",\r\n    \"price\": 400,\r\n    \"quantity\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/shopping-cart/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update product by id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Paporras\",\r\n    \"description\": \"250 gr de aire y 3 de papas\",\r\n    \"price\": 22.5,\r\n    \"quantity\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/shopping-cart/products/82a8aebc-11f8-4b6d-ab4a-996d12a7a015",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"products",
+								"82a8aebc-11f8-4b6d-ab4a-996d12a7a015"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete product by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/shopping-cart/products/5975170a-f2d7-4dfb-912a-e315d195abd6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"products",
+								"5975170a-f2d7-4dfb-912a-e315d195abd6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shopping cart",
+			"item": [
+				{
+					"name": "Create shopping cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/shopping-cart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get shopping cart by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/shopping-cart/945de5a5-c8cd-4cba-bf4a-90526c78cba5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"945de5a5-c8cd-4cba-bf4a-90526c78cba5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add product to shopping cart",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/shopping-cart/945de5a5-c8cd-4cba-bf4a-90526c78cba5/add-product/6c589a43-6a70-4c51-8e64-2a90159159d3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"945de5a5-c8cd-4cba-bf4a-90526c78cba5",
+								"add-product",
+								"6c589a43-6a70-4c51-8e64-2a90159159d3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove product from shopping cart",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/shopping-cart/945de5a5-c8cd-4cba-bf4a-90526c78cba5/remove-product/faedfd7f-c26c-4b44-bcc8-5a44fd994ebf",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"945de5a5-c8cd-4cba-bf4a-90526c78cba5",
+								"remove-product",
+								"faedfd7f-c26c-4b44-bcc8-5a44fd994ebf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Increase quantity of product in the shopping cart",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/shopping-cart/945de5a5-c8cd-4cba-bf4a-90526c78cba5/increase-quantity/6c589a43-6a70-4c51-8e64-2a90159159d3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"945de5a5-c8cd-4cba-bf4a-90526c78cba5",
+								"increase-quantity",
+								"6c589a43-6a70-4c51-8e64-2a90159159d3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Decrease quantity of product in the shopping cart",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/shopping-cart/945de5a5-c8cd-4cba-bf4a-90526c78cba5/decrease-quantity/6c589a43-6a70-4c51-8e64-2a90159159d3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"shopping-cart",
+								"945de5a5-c8cd-4cba-bf4a-90526c78cba5",
+								"decrease-quantity",
+								"6c589a43-6a70-4c51-8e64-2a90159159d3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
