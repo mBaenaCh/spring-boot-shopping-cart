@@ -66,10 +66,20 @@ public class ShoppingCartController {
     }
 
     @GetMapping("/{id}")
-    public ShoppingCart getShoppingCartById(
+    public ShoppingCartOutput getShoppingCartById(
             @PathVariable("id") String id){
         final ClientId clientId = ClientId.generateUUIDFromString(id);
-        return shoppingCartServices.getShoppingCartById(clientId);
+
+        ShoppingCart foundShoppingCart = shoppingCartServices.getShoppingCartById(clientId);
+
+        ShoppingCartOutput output = new ShoppingCartOutput();
+        output.setClientId(foundShoppingCart.getClientId());
+        output.setCreatedAt(foundShoppingCart.getCreatedAt());
+        output.setUpdatedAt(foundShoppingCart.getUpdatedAt());
+        output.setProducts(foundShoppingCart.getProducts());
+        output.setTotal(foundShoppingCart.getTotal());
+
+        return output;
     }
 
     @PutMapping(value = "/products/{id}")
@@ -99,7 +109,13 @@ public class ShoppingCartController {
         ShoppingCart shoppingCart = new ShoppingCart(clientId, createdAt, updatedAt, products);
         shoppingCart.setTotal(new Money(new BigDecimal(0), Badge.USD));
         ShoppingCart createdShoppingCart = shoppingCartServices.createShoppingCart(shoppingCart);
-        return new ShoppingCartOutput(createdShoppingCart);
+        ShoppingCartOutput output = new ShoppingCartOutput();
+        output.setClientId(createdShoppingCart.getClientId());
+        output.setCreatedAt(createdShoppingCart.getCreatedAt());
+        output.setUpdatedAt(createdShoppingCart.getUpdatedAt());
+        output.setProducts(createdShoppingCart.getProducts());
+        output.setTotal(createdShoppingCart.getTotal());
+        return output;
     }
 
     @DeleteMapping(value = "/products/{id}")
@@ -110,30 +126,44 @@ public class ShoppingCartController {
     }
 
     @PutMapping(value = "/{scId}/add-product/{pId}")
-    public ShoppingCart addProductToShoppingCart(
+    public ShoppingCartOutput addProductToShoppingCart(
             @PathVariable("scId") String scId,
             @PathVariable("pId") String pId){
         final ProductId productId = ProductId.generateUUIDFromString(pId);
         final ClientId clientId = ClientId.generateUUIDFromString(scId);
 
         ShoppingCart updatedShoppingCart = shoppingCartServices.addProductToShoppingCart(productId, clientId);
+        ShoppingCartOutput output = new ShoppingCartOutput();
+        output.setClientId(updatedShoppingCart.getClientId());
+        output.setCreatedAt(updatedShoppingCart.getCreatedAt());
+        output.setUpdatedAt(updatedShoppingCart.getUpdatedAt());
+        output.setProducts(updatedShoppingCart.getProducts());
+        output.setTotal(updatedShoppingCart.getTotal());
 
-        return updatedShoppingCart;
+        return output;
     }
 
     @PutMapping(value = "/{scId}/remove-product/{pId}")
-    public ShoppingCart removeProductFromShoppingCart(
+    public ShoppingCartOutput removeProductFromShoppingCart(
             @PathVariable("scId") String scId,
             @PathVariable("pId") String pId){
         final ProductId productId = ProductId.generateUUIDFromString(pId);
         final ClientId clientId = ClientId.generateUUIDFromString(scId);
 
         ShoppingCart updatedShoppingCart = shoppingCartServices.removeProductFromTheShoppingCart(productId, clientId);
-        return updatedShoppingCart;
+
+        ShoppingCartOutput output = new ShoppingCartOutput();
+        output.setClientId(updatedShoppingCart.getClientId());
+        output.setCreatedAt(updatedShoppingCart.getCreatedAt());
+        output.setUpdatedAt(updatedShoppingCart.getUpdatedAt());
+        output.setProducts(updatedShoppingCart.getProducts());
+        output.setTotal(updatedShoppingCart.getTotal());
+
+        return output;
     }
 
     @PutMapping(value = "/{scId}/increase-quantity/{pId}")
-    public ShoppingCart increaseProductQuantity(
+    public ShoppingCartOutput increaseProductQuantity(
             @PathVariable("scId") String scId,
             @PathVariable("pId") String pId){
 
@@ -141,11 +171,20 @@ public class ShoppingCartController {
         final ClientId clientId = ClientId.generateUUIDFromString(scId);
 
         ShoppingCart updatedShoppingCart = shoppingCartServices.increaseProductQuantity(productId, clientId);
-        return updatedShoppingCart;
+
+        ShoppingCartOutput output = new ShoppingCartOutput();
+
+        output.setClientId(updatedShoppingCart.getClientId());
+        output.setCreatedAt(updatedShoppingCart.getCreatedAt());
+        output.setUpdatedAt(updatedShoppingCart.getUpdatedAt());
+        output.setProducts(updatedShoppingCart.getProducts());
+        output.setTotal(updatedShoppingCart.getTotal());
+
+        return output;
     }
 
     @PutMapping(value = "/{scId}/decrease-quantity/{pId}")
-    public ShoppingCart decreaseProductQuantity(
+    public ShoppingCartOutput decreaseProductQuantity(
             @PathVariable("scId") String scId,
             @PathVariable("pId") String pId){
 
@@ -153,6 +192,13 @@ public class ShoppingCartController {
         final ClientId clientId = ClientId.generateUUIDFromString(scId);
 
         ShoppingCart updatedShoppingCart = shoppingCartServices.decreaseProductQuantity(productId, clientId);
-        return updatedShoppingCart;
+
+        ShoppingCartOutput output = new ShoppingCartOutput();
+        output.setClientId(updatedShoppingCart.getClientId());
+        output.setCreatedAt(updatedShoppingCart.getCreatedAt());
+        output.setUpdatedAt(updatedShoppingCart.getUpdatedAt());
+        output.setProducts(updatedShoppingCart.getProducts());
+        output.setTotal(updatedShoppingCart.getTotal());
+        return output;
     }
 }
